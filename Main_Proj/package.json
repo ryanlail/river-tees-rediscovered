@@ -1,0 +1,24 @@
+{
+  "name": "main_proj",
+  "version": "1.0.0",
+  "description": "A passport system for River Tees Rediscovered",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/propene123/Software-Engineering.git"
+  },
+  "author": "Group 20",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/propene123/Software-Engineering/issues"
+  },
+  "homepage": "https://github.com/propene123/Software-Engineering#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
