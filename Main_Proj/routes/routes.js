@@ -1,13 +1,12 @@
 'use strict'
 
 const router = require('express').Router();
+const keys = require('../config/keys');
 let bodyParser = require('body-parser');
 let multer = require('multer');
 let upload = multer({dest:'local/uploads/'});
 const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(keys.google.clientID);
-
-
 
 
 async function verify(token) {
