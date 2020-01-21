@@ -1,0 +1,26 @@
+body {
+    background-image: url("background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.title {
+    margin: 0;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    -ms-transform: traslate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+h1 {
+    font-size: 8em;
+    color: #ffffff;
+    font-family: "Arial";
+    font-weight: bold;
+}
+
+img.logo{
+    width: 20%;
+    height: auto;
+}
