@@ -7,6 +7,7 @@ let multer = require('multer');
 let upload = multer({dest:'local/uploads/'});
 const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(keys.google.clientID);
+const mysql = require('mysql');
 const { DBHandler } = require('../libs/DBHandler')
 
 
@@ -31,8 +32,7 @@ router.post('/user/getPhotos', async function(req, res) {
         let db = new DBHandler(keys.mysql.host, keys.mysql.user, keys.mysql.password, keys.mysql.database);
         let resp  = await db.connect();
         if (resp){
-            // THIS IS A PLACEHOLDER QUERY PLEASE NEVER USE THIS QUERY EVER
-            resp = await db.query('SELECT * FROM PassportPage')
+            resp = await db.query('SELECT `PhotoPath` FROM `PassportPage` WHERE `UserID` = ' + mysql.escape(user['sub']));
             if(resp){
                 res.status(200);
                 body = resp;
@@ -50,6 +50,9 @@ router.post('/user/getPhotos', async function(req, res) {
     }
     res.send({data: body});
 });
+
+
+
 
 
 module.exports = {router}
