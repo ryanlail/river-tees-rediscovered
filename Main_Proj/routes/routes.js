@@ -66,7 +66,7 @@ router.post('/user/addPhoto', async function(req, res) {
             let userID = user['sub'];
             let sculptureID = req.body.sculptureID;
             let photoPath = userID+'/'+sculptureID+'/';
-            let sql = 'INSERT INTO PassportPage (UserID, PhotoPath, SculptureID) VALUES (?, ?, ?)';
+            let sql = 'INSERT INTO PassportPage (UserID, SculptureID, PhotoPath) VALUES (?, ?, ?)';
             sql = mysql.format(sql, [userID, sculptureID, photoPath]);
             resp = await db.query(sql);
             if(resp){
