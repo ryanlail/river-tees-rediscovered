@@ -52,6 +52,44 @@ router.post('/user/getPhotos', async function(req, res) {
 });
 
 
+router.post('/user/addPhoto', async function(req, res) {
+    res.type('json');
+    let body = '';
+    let verif = true;
+    let user = await verify(req.body.idToken).catch(()=>{
+        verif = true;
+    });
+    if (verif) {
+        let db = new DBHandler(keys.mysql.host, keys.mysql.user, keys.mysql.password, keys.mysql.database);
+        let resp  = await db.connect();
+        if (resp){
+            let userID = user['sub'];
+            let sculptureID = req.body.sculptureID;
+            let photoPath = userID+'/'+sculptureID+'/';
+            let sql = 'INSERT INTO PassportPage (UserID, PhotoPath, SculptureID) VALUES (?, ?, ?)';
+            sql = mysql.format(sql, [userID, sculptureID, photoPath]);
+            resp = await db.query(sql);
+            if(resp){
+                res.status(200);
+                body = resp;
+            } else{
+                res.status(500);
+                body = 'Could not complete query';
+            }
+        }else {
+            res.status(500);
+            body = 'Could not connect to database';
+        }
+    }else{
+        res.status(401);
+        body = 'Could not verify your user token';
+    }
+
+    res.send({data: body});
+});
+
+
+
 
 
 
