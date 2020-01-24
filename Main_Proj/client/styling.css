@@ -76,6 +76,7 @@ body, html {
 .page h2 {
     font-family:'Raleway';
     color: #00CBD1;
+    letter-spacing: 1.5px;
 }
 
 .page p, ul {
@@ -98,7 +99,7 @@ body, html {
   width: auto;
   margin-top: -22px;
   padding: 16px;
-  color: #4D4D4D;
+  color: rgba(77,77,77,0.5);
   font-weight: bold;
   font-size: 18px;
   transition: 0.6s ease;
@@ -142,10 +143,38 @@ body, html {
     color: #00CBD1;
 }
 
+.section1, .section2 {
+    width: 100%;
+    display: inline-block;
+}
+
 .sculpture {
     position: relative;
     width: 40%;
-    float: left;
+    margin-top: 20%;
+}
+
+.sculptureText1, .sculptureText2 {
+    width: 56%;
+}
+
+.sculptureText1 p {
+    font-size: 14px;
+    text-align: right;
+}
+
+.sculptureText2 p {
+    font-size: 14px;
+    text-align: left;
+    
+}
+
+.sculptureText1 h2 {
+    text-align: right;
+}
+
+.sculptureText2 h2 {
+    text-align: left;
 }
 
 .upload { 
