@@ -119,7 +119,41 @@ router.post('/user/addPhoto', upload.single('picture'), async function(req, res)
 
 // Function gets an individual image file for a users sculpture
 router.post('/user/getPhoto', async function(req, res){
-
+    let body = '';
+    let verif = true;
+    let user = await verify(req.body.idToken).catch(()=>{
+        verif = false;
+    });
+    if (verif){
+        let db = new DBHandler(keys.mysql.host, keys.mysql.user, keys.mysql.password, keys.mysql.database);
+        let resp  = await db.connect();
+        if (resp){
+            let userID = user['sub'];
+            let sql = 'SELECT `PhotoPath` FROM `PassportPage` WHERE `UserID` = ? AND SculptureID = ?';
+            sql = mysql.format(sql, [userID, req.body.sculptureID]);
+            resp = await db.query(sql);
+            if(resp){
+                res.sendFile('/photos/'+resp+'/1', (err)=>{
+                    if (err) {
+                        res.status(500);
+                        body = 'Could not send image file';
+                    }else{
+                        next();
+                    }
+                });
+            } else{
+                res.status(500);
+                body = 'Could not complete query';
+            }
+        }else {
+            res.status(500);
+            body = 'Could not connect to database';
+        }
+    }else{
+        res.status(401);
+        body = 'Could not verify your user ticket';
+    }
+    res.send({data: body});
 });
 
 
