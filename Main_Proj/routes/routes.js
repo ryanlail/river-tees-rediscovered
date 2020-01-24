@@ -57,7 +57,7 @@ router.post('/user/addPhoto', async function(req, res) {
     let body = '';
     let verif = true;
     let user = await verify(req.body.idToken).catch(()=>{
-        verif = true;
+        verif = false;
     });
     if (verif) {
         let db = new DBHandler(keys.mysql.host, keys.mysql.user, keys.mysql.password, keys.mysql.database);
@@ -66,8 +66,8 @@ router.post('/user/addPhoto', async function(req, res) {
             let userID = user['sub'];
             let sculptureID = req.body.sculptureID;
             let photoPath = userID+'/'+sculptureID+'/';
-            let sql = 'INSERT INTO PassportPage (UserID, SculptureID, PhotoPath) VALUES (?, ?, ?)';
-            sql = mysql.format(sql, [userID, sculptureID, photoPath]);
+            let sql = 'INSERT INTO PassportPage (UserID, SculptureID, PhotoPath) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE PhotoPath = ?';
+            sql = mysql.format(sql, [userID, sculptureID, photoPath, photoPath]);
             resp = await db.query(sql);
             if(resp){
                 res.status(200);
