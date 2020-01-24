@@ -55,6 +55,99 @@ router.post('/user/getPhotos', async function(req, res) {
     res.send({data: body});
 });
 
+// Function gets sculpture info based off given id
+router.get('/getSculpture', async function(req, res){
+    res.type('json');
+    let body = '';
+    let sculptureID = req.query.sculptureID;
+    if(sculptureID){
+        let db = new DBHandler(keys.mysql.host, keys.mysql.user, keys.mysql.password, keys.mysql.database);
+        let resp  = await db.connect();
+        if (resp){
+            let sql = 'SELECT Title, ArtistID, TrailID FROM Sculpture WHERE SculptureID = ?';
+            sql = mysql.format(sql, [sculptureID]);
+            resp = await db.query(sql);
+            if(resp){
+                res.status(200);
+                body = resp;
+            } else{
+                res.status(500);
+                body = 'Could not complete query';
+            }
+        }else {
+            res.status(500);
+            body = 'Could not connect to database';
+        }
+    }else{
+        res.status(401);
+        body = 'Did not specify and artist in the request';
+    }
+    res.send({data: body});
+});
+
+// Function gets trail name based of TrailID
+router.get('/getTrail', async function(req, res){
+    res.type('json');
+    let body = '';
+    let trailID = req.query.trailID;
+    if(trailID){
+        let db = new DBHandler(keys.mysql.host, keys.mysql.user, keys.mysql.password, keys.mysql.database);
+        let resp  = await db.connect();
+        if (resp){
+            let sql = 'SELECT Name FROM Trail WHERE TrailID = ?';
+            sql = mysql.format(sql, [trailID]);
+            resp = await db.query(sql);
+            if(resp){
+                res.status(200);
+                body = resp;
+            } else{
+                res.status(500);
+                body = 'Could not complete query';
+            }
+        }else {
+            res.status(500);
+            body = 'Could not connect to database';
+        }
+    }else{
+        res.status(401);
+        body = 'Did not specify and artist in the request';
+    }
+    res.send({data: body});
+});
+
+
+
+
+// Function get artist names based of given id
+router.get('/getArtist', async function(req, res){
+    res.type('json');
+    let body = '';
+    let artistID = req.query.artistID;
+    if(artistID){
+        let db = new DBHandler(keys.mysql.host, keys.mysql.user, keys.mysql.password, keys.mysql.database);
+        let resp  = await db.connect();
+        if (resp){
+            let sql = 'SELECT Forename, Surname FROM Artist WHERE ArtistID = ?';
+            sql = mysql.format(sql, [artistID]);
+            resp = await db.query(sql);
+            if(resp){
+                res.status(200);
+                body = resp;
+            } else{
+                res.status(500);
+                body = 'Could not complete query';
+            }
+        }else {
+            res.status(500);
+            body = 'Could not connect to database';
+        }
+    }else{
+        res.status(401);
+        body = 'Did not specify and artist in the request';
+    }
+    res.send({data: body});
+});
+
 // Function adds a new photo to the server and adds a database entry
 router.post('/user/addPhoto', upload.single('picture'), async function(req, res) {
     res.type('json');
