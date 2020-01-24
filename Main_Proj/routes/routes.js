@@ -118,7 +118,7 @@ router.post('/user/addPhoto', upload.single('picture'), async function(req, res)
 });
 
 // Function gets an individual image file for a users sculpture
-router.post('/user/getPhoto', async function(req, res, next){
+router.post('/user/getPhoto', async function(req, res){
     let body = '';
     let verif = true;
     let user = await verify(req.body.idToken).catch(()=>{
