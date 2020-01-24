@@ -55,7 +55,7 @@ router.post('/user/getPhotos', async function(req, res) {
     res.send({data: body});
 });
 
-
+// Function adds a new photo to the server and adds a database entry
 router.post('/user/addPhoto', upload.single('picture'), async function(req, res) {
     res.type('json');
     let body = '';
@@ -70,9 +70,10 @@ router.post('/user/addPhoto', upload.single('picture'), async function(req, res)
                 file = '/photos/tmp/'+req.file.filename;
                 let movFile = false;
                 try {
-                    fs.renameSync(file, '/photos/'+user['sub']+'/'+req.body.sculptureID+'/1');
+                    fs.mkdirSync('./photos/'+user['sub']+'/'+req.body.sculptureID+'/', {recursive: true});
+                    fs.renameSync('./photos/tmp/'+req.file.filename, './photos/'+user['sub']+'/'+req.body.sculptureID+'/1');
                     movFile = true;
-                } catch (error) {
+                } catch (err) {
                     movFile = false;
                 }
                 if(movFile){
@@ -87,7 +88,7 @@ router.post('/user/addPhoto', upload.single('picture'), async function(req, res)
                         resp = await db.query(sql);
                         if(resp){
                             res.status(200);
-                            body = resp;
+                            body = 'Success uploaded new photo';
                         } else{
                             res.status(500);
                             body = 'Could not complete query';
@@ -116,7 +117,10 @@ router.post('/user/addPhoto', upload.single('picture'), async function(req, res)
     res.send({data: body});
 });
 
+// Function gets an individual image file for a users sculpture
+router.post('/user/getPhoto', async function(req, res){
 
+});
 
 
 
