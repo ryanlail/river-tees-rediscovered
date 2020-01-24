@@ -3,15 +3,102 @@
 
     <head>
         <link rel = "stylesheet" href = "styling.css">
-        <title>River Tees Rediscovered</title>
+        <title>Sculpture Trail Passport</title>
+        <link href="https://fonts.googleapis.com/css?family=Amatic+SC|Raleway:100,200,300,400,500,600,700,800,900," rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Averia+Serif+Libre&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=EB+Garamond&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Crimson+Text&display=swap" rel="stylesheet">
     </head>
 
     <body>
-        <div class = "title">
-            <h1>PASSPORT</h1>
-            <img src="sign_in.png">
+        <div class = "heading">
+            <img class="logo" src="logo.png">
+            <div class = heading-inner>
+                <h1 class = "title"><b>SCULPTURE TRAIL PASSPORT</b></h1>
+                <img class = "sign-in" src="sign_in.png">
+            </div>
         </div>
 
-        <img class="logo" src="logo.png">
+        <div class = "pp-container">
+
+            <div class = "page fade" id = "front">
+                <h1 style = "font-size: 5.5em; font-family: 'Crimson Text'; color: white;"><b>PASSPORT</b></h1>
+                <br><br><br>
+                <img src="logo.png" style = "margin: auto; width: 28em;">
+                <br><br><br>
+                <h2 style = "font-size: 3em; font-family: 'Crimson Text'; color: white;"><em>Sculpture Trail</em></h2>
+            </div>
+
+            <div class = "page fade">
+                <a class = "contents_link" onclick="currentPage(3)">Contents</a>
+                <a class = "map_link" onclick="currentPage(4)">Map</a>
+
+                <h1 style = "font-size: 1.5em;"><b>River Tees Rediscovered</b></h1>
+                <h1><b>Sculpture Trail Passport</b></h2>
+                <h2>What is it?</h2>
+
+                <!--Update as progress is made-->
+                <p><b>Left to complete:</b> Information page, contents page, map, sculpture page structure, upload feature, page skip features, mutability to a double page spread</p>
+
+                <h2>How To Use</h2>
+                <ul>
+                    <li>Use the arrows on either side of the screen to move between pages</li>
+                    <li>To skip to a trail or sculpture, either click on its name on the Contents page or click on its icon on the Map page</li>
+                    <li>Use the arrows at the top of the page to jump between trails</li>
+                    <li>Use the link in the top left corner to return to the Contents page at any time</li>
+                    <li>Use the link in the top right corner to return to the Map page at any time</li>
+                    <li>To upload your own photo of a sculpture, hover above its photo in the passport then click 'Upload'</li>
+                    <li>When you upload one or more photos of a sculpture, an arrow will appear next to the default photo, allowing you to browse all photos of that sculpture</li>
+                </ul>
+            </div>
+            
+            <div class = "page fade">
+                <a class = "map_link" onclick="currentPage(4)">Map</a>
+                <h1>Contents</h1>
+            </div>
+
+            <div class = "page fade">
+                <a class = "contents_link" onclick="currentPage(3)">Contents</a>
+
+                <h1>(Map Part 1)</h1>
+            </div>
+
+            <div class = "page fade">
+                <a class = "contents_link" onclick="currentPage(3)">Contents</a>
+
+                <h1>(Map Part 2)</h1>
+            </div>
+
+            <div class = "page fade" id = "trail1name">
+                <div class = "trail_setter">
+                <a class="trailprev" onclick="">&#10094;</a>
+                trail1name
+                <a class="trailnext" onclick="">&#10095;</a>
+                </div>
+                <a class = "contents_link" onclick="currentPage(3)">Contents</a>
+                <a class = "map_link" onclick="currentPage(4)">Map</a>
+
+                <h1>trail1name</h1>
+            </div>
+
+            <div class = "page fade" id = "trail1name">
+                <div class = "trail_setter">
+                <a class="trailprev" onclick="">&#10094;</a>
+                trail1name
+                <a class="trailnext" onclick="">&#10095;</a>
+                </div>
+                <a class = "contents_link" onclick="currentPage(3)">Contents</a>
+                <a class = "map_link" onclick="currentPage(4)">Map</a>
+                
+            </div>
+
+
+            <a class="prev" onclick="plusPages(-1)">&#10094;</a>
+            <a class="next" onclick="plusPages(1)">&#10095;</a>
+
+        </div>
+
+        <script src = "index.js"></script>
+
     </body>
 </html>
