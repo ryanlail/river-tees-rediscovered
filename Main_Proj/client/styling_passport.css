@@ -79,6 +79,12 @@ body, html {
     letter-spacing: 1.5px;
 }
 
+.page h4 {
+    color: white;
+    font-family: "Raleway";
+    font-weight: bold;
+}
+
 .page p, ul {
     font-family:'Averia Serif Libre';
     text-align: left;
@@ -144,8 +150,8 @@ body, html {
 }
 
 .section1, .section2 {
-    width: 100%;
-    display: inline-block;
+  width: 100%;
+  display: inline-block;
 }
 
 .sculpture {
@@ -155,26 +161,26 @@ body, html {
 }
 
 .sculptureText1, .sculptureText2 {
-    width: 56%;
+  width: 56%;
 }
 
 .sculptureText1 p {
-    font-size: 14px;
-    text-align: right;
+  font-size: 14px;
+  text-align: right;
 }
 
 .sculptureText2 p {
-    font-size: 14px;
-    text-align: left;
-    
+  font-size: 14px;
+  text-align: left;
+
 }
 
 .sculptureText1 h2 {
-    text-align: right;
+  text-align: right;
 }
 
 .sculptureText2 h2 {
-    text-align: left;
+  text-align: left;
 }
 
 .upload { 
@@ -215,6 +221,35 @@ body, html {
   animation-name: fade;
   animation-duration: 1.5s;
 }
+
+.container {
+  position: relative;
+}
+
+.signin {
+  margin: 0;
+  position: absolute;
+  top: 0%;
+  left: 50%;
+  -ms-transform: translate(-50%, -300%);
+  transform: translate(-50%, -300%);
+}
+
+.signout {
+    padding: 6px 15px;
+    font-family:'Raleway';
+    -ms-transform: translate(0%, 250%);
+    transform: translate(0%, 250%);
+    background-color: #f44336;
+    color: white; 
+    border: #f44336;
+  }
+  
+.signout:hover {
+    background-color: #f44336;
+    color: white;
+    box-shadow: 0 8px 12px 0 rgba(0,0,0,0.24), 0 2px 6px 0 #f44336;
+  }
 
 @-webkit-keyframes fade {
   from {opacity: .4} 

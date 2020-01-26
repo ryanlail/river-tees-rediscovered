@@ -1,0 +1,46 @@
+body {
+    
+    background-image: url("background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;  
+}
+
+.title {
+    margin: 0;
+    position: absolute;
+    top: 28%;
+    left: 50%;
+    -ms-transform: traslate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+h1 {
+    font-size: 8em;
+    color: #ffffff;
+    font-family: "Arial";
+    font-weight: bold;
+}
+
+h4 {
+    color: #4c8bf5;
+    font-family: "Arial";
+    font-weight: bold;
+}
+
+img.logo{
+    width: 20%;
+    height: auto;
+}
+
+.container {
+    position: relative;
+  }
+
+.signin {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, 450%);
+    transform: translate(-50%, 450%);
+}
