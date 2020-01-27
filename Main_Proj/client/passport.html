@@ -114,7 +114,11 @@
                 <div class = "section1">
                     <div class = "sculpture" style = "float: left">
                         <img class = "photo" src = "https://images.pexels.com/photos/613431/pexels-photo-613431.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" style = "width: 100%; height: auto;">
-                        <button class = "upload"> Upload </button>
+                        <form id="imageUpload" method="post" enctype="multipart/form-data" action="/upload">
+                            <input id="imageUploadFile" type = "file" name="fileName" accept="image/*">
+                            <button id="upload1" onclick="postImage()"> Upload </button>
+                        </form>
+                        
                     </div>
 
 
@@ -127,7 +131,8 @@
                 <div class = "section2">
                     <div class = "sculpture" style = "float: right;">
                         <img class = "photo" src = "https://images.pexels.com/photos/1251720/pexels-photo-1251720.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" style = "width: 100%; height: auto;">
-                        <button class = "upload"> Upload </button>
+                        <input type="file" id="upload2Input" name="upload2File" style="display:none"/>
+                        <button class = "upload" id="upload2"> Upload </button>
                     </div>
                     <div class = "sculptureText2" style = "float: left;">
                         <h2>Sculpture2Name</h2>
