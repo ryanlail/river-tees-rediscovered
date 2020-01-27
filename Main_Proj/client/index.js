@@ -27,10 +27,10 @@ function postImage() {
 }
 
 
-
+// NEXT 2 FUNCTIONS NEED TO BE REFACTORED INTO A CLASS OF SOME SORT
 document.getElementById('upload2Input').addEventListener('change', async function(){
   let data = new FormData();
-  // data.append('idToken', googleUser.currentUser.getAuthResponse().id_token);
+  data.append('idToken', googleUser.currentUser.getAuthResponse().id_token);
   data.append('sculptureID', 1);
   data.append('picture', document.getElementById('upload2Input').files[0]);
   let api = true;
@@ -51,3 +51,5 @@ document.getElementById('upload2').addEventListener('click', async function(){
   document.getElementById('upload2Input').click();
   
 });
+
+// ***********************************************************************************************
