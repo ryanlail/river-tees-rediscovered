@@ -27,5 +27,8 @@ function postImage() {
 }
 
 
+let upload1 = new UploadButton();
+upload1.init(document.getElementById('upload1'), document.getElementById('upload1Input'), 1, '/user/addPhoto');
+
 let upload2 = new UploadButton();
-upload2.init(document.getElementById('upload2'), document.getElementById('upload2Input'), 1, '/user/addPhoto');
+upload2.init(document.getElementById('upload2'), document.getElementById('upload2Input'), 2, '/user/addPhoto');

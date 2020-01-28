@@ -114,10 +114,8 @@
                 <div class = "section1">
                     <div class = "sculpture" style = "float: left">
                         <img class = "photo" src = "https://images.pexels.com/photos/613431/pexels-photo-613431.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" style = "width: 100%; height: auto;">
-                        <form id="imageUpload" method="post" enctype="multipart/form-data" action="/upload">
-                            <input id="imageUploadFile" type = "file" name="fileName" accept="image/*">
-                            <button id="upload1" onclick="postImage()"> Upload </button>
-                        </form>
+                        <input type="file" id="upload1Input" name="upload1File" style="display:none"/>
+                        <button class = "upload" id="upload1"> Upload </button>
                         
                     </div>
 
