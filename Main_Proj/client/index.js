@@ -27,29 +27,5 @@ function postImage() {
 }
 
 
-// NEXT 2 FUNCTIONS NEED TO BE REFACTORED INTO A CLASS OF SOME SORT
-document.getElementById('upload2Input').addEventListener('change', async function(){
-  let data = new FormData();
-  data.append('idToken', googleUser.currentUser.getAuthResponse().id_token);
-  data.append('sculptureID', 1);
-  data.append('picture', document.getElementById('upload2Input').files[0]);
-  let api = true;
-  let success = await fetch("/user/addPhoto", {
-    method: 'POST',
-    body: data
-  }).catch(() => {
-    alert("Failed to upload image to server");
-    api = false;
-  });
-  if (!api) return;
-  let successMessage = await success.json();
-  alert(successMessage.data);
-});
-
-
-document.getElementById('upload2').addEventListener('click', async function(){
-  document.getElementById('upload2Input').click();
-  
-});
-
-// ***********************************************************************************************
+let upload2 = new UploadButton();
+upload2.init(document.getElementById('upload2'), document.getElementById('upload2Input'), 1, '/user/addPhoto');
