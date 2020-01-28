@@ -5,6 +5,7 @@ class SculptureImage{
         this._src = src;
         this._element = element; 
         this._endpoint = endpoint;
+        this._element.src = this._src;
     }
 
 
@@ -15,7 +16,7 @@ class SculptureImage{
 
     async refreshDatabase(idToken, sculptureID){
         let api = true;
-        let success = await fetch(endpoint, {
+        let success = await fetch(this._endpoint, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'

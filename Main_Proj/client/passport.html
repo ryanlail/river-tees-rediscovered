@@ -113,7 +113,7 @@
                 <h1>trail1name</h1>
                 <div class = "section1">
                     <div class = "sculpture" style = "float: left">
-                        <img class = "photo" src = "https://images.pexels.com/photos/613431/pexels-photo-613431.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" style = "width: 100%; height: auto;">
+                        <img class = "photo" id="image1" src = "" style = "width: 100%; height: auto;">
                         <input type="file" id="upload1Input" name="upload1File" style="display:none"/>
                         <button class = "upload" id="upload1"> Upload </button>
                         
@@ -128,7 +128,7 @@
 
                 <div class = "section2">
                     <div class = "sculpture" style = "float: right;">
-                        <img class = "photo" src = "https://images.pexels.com/photos/1251720/pexels-photo-1251720.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" style = "width: 100%; height: auto;">
+                        <img class = "photo" id="image2" src = "" style = "width: 100%; height: auto;">
                         <input type="file" id="upload2Input" name="upload2File" style="display:none"/>
                         <button class = "upload" id="upload2"> Upload </button>
                     </div>
@@ -154,6 +154,7 @@
             <a class="next" onclick="plusPages(1)">&#10095;</a>
 
         </div>
+        <script src = "ui_elements/sculptureImage.js"></script>
         <script src = "ui_elements/uploadButton.js"></script>
         <script src = "index.js"></script>
 
