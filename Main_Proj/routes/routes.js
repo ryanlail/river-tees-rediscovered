@@ -192,7 +192,7 @@ router.post('/user/addPhoto', upload.single('picture'), async function(req, res)
                     }
                 }else {
                     res.status(500);
-                    body = 'Cpuld not store file on the system';
+                    body = 'Could not store file on the system';
                 }
             }else {
                 res.status(400);
