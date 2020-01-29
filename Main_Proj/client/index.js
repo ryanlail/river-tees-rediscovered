@@ -42,8 +42,8 @@ function postImage() {
 }
 
 
-let image1 = new SculptureImage("https://images.pexels.com/photos/613431/pexels-photo-613431.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940", document.getElementById('image1'), '/user/getPhoto');
-let image2 = new SculptureImage("https://images.pexels.com/photos/1251720/pexels-photo-1251720.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940", document.getElementById('image2'), '/user/getPhoto');
+let image1 = new SculptureImage("", document.getElementById('image1'), '/user/getPhoto');
+let image2 = new SculptureImage("", document.getElementById('image2'), '/user/getPhoto');
 image1.refreshDatabase(googleUser.getAuthResponse().id_token, 1);
 image2.refreshDatabase(googleUser.getAuthResponse().id_token, 2);
 
