@@ -164,7 +164,8 @@ router.post('/user/addPhoto', upload.single('picture'), async function(req, res)
                 let movFile = false;
                 try {
                     fs.mkdirSync('./photos/'+user['sub']+'/'+req.body.sculptureID+'/', {recursive: true});
-                    fs.renameSync('./photos/tmp/'+req.file.filename, './photos/'+user['sub']+'/'+req.body.sculptureID+'/1');
+                    // call stamping function
+
                     movFile = true;
                 } catch (err) {
                     movFile = false;
