@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en-gb">
+
+<html>
+    <head>
+        <meta name="google-signin-client_id" content="1036868376146-6e9lh6ttm3g9ovi3f3mkosdk0fh1mqgo.apps.googleusercontent.com">
+        <link rel = "stylesheet" href = "styling_index.css">
+        <link href="https://fonts.googleapis.com/css?family=Amatic+SC|Raleway:100,200,300,400,500,600,700,800,900," rel="stylesheet">
+        <link rel="icon" href="favicon.ico" type="image/x-icon">
+        <title>River Tees Rediscovered</title>
+    </head>
+
+    <body>
+        <div class = "heading">
+            <div class = "logo">
+                <img src= "logo.png" style="width:100%">
+            </div>
+            <div class = heading-inner>
+                <h1 class = "title"><b>SCULPTURE TRAIL PASSPORT</b></h1>
+                <div id="my-signin2" class="sign-in">
+                    <script>
+                        function onSuccess(googleUser) {
+                            console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+                            location.href = "http://localhost:8080/passport.html";
+                        }
+                        function onFailure(error) {
+                            console.log(error);
+                        }
+                        function renderButton() {
+                            gapi.signin2.render('my-signin2', {
+                            'scope': 'profile email',
+                            'width': 220,
+                            'height': 45,
+                            'longtitle': true,
+                            'theme': 'dark',
+                            'onsuccess': onSuccess,
+                            'onfailure': onFailure
+                            });
+                        }
+                    </script>
+                    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+                </div>
+
+            
+
+            </div>
+        </div>
+    </body>
+</html>

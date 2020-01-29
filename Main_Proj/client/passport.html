@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en-gb">
+
+    <head>
+        <link rel = "stylesheet" href = "styling_passport.css">
+        <title>Sculpture Trail Passport</title>
+        <meta name="google-signin-client_id" content="1036868376146-6e9lh6ttm3g9ovi3f3mkosdk0fh1mqgo.apps.googleusercontent.com">
+        <link href="https://fonts.googleapis.com/css?family=Amatic+SC|Raleway:100,200,300,400,500,600,700,800,900," rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Averia+Serif+Libre&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=EB+Garamond&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Crimson+Text&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+    </head>
+
+    <body>
+        <div class = "heading">
+            <div class = "logo">
+                <img src= "logo.png" style="width:100%">
+            </div>
+            <div class = heading-inner>
+
+                <button class="sign-out" href="#" onclick="signOut();">Sign out</button>
+                <script>
+                    function signOut() {
+                        var auth2 = gapi.auth2.getAuthInstance();
+                        auth2.signOut().then(function(){
+                            location.href = "http://localhost:8080";
+                        });
+                    }
+                </script>
+                <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+            </div>
+        </div>
+        
+        <button class="howto">How To Use</button>
+        <div class="howto_panel">
+            <ul>
+                <li>Use the arrows on either side of the screen to move between pages</li>
+                <li>To skip to a trail, either click on its name in the navigation bar below or click on its icon on the Map</li>
+                <li>Use the arrows at the top of the page to jump between trails</li>
+                <li>To upload a photo of a sculpture, click on the 'Upload' button in the correct photo frame and select the photo from your files - you will then receive a stamp for that sculpture</li>
+            </ul>
+        </div>
+            
+        <div class="topnav">
+            <a class = "Map" onclick="openMap();">Map</a>
+            <a class = "Trail 1" onclick="currentPage(2)">Trail 1</a>
+            <a class = "Trail 2" onclick="">Trail 2</a>
+            <a class = "Trail 3" onclick="">Trail 3</a>
+            <a class = "Trail 4" onclick="">Trail 4</a>
+        </div>
+
+        <div class = "pp-container">
+            <div class = "page fade" id = "front">
+                <h1 style = "font-size: 5.5em; font-family: 'Crimson Text'; color: white;"><b>PASSPORT</b></h1>
+                <br><br><br>
+                <img src="logo.png" style = "margin: auto; width: 28em;">
+                <br><br><br>
+                <h2 style = "font-size: 3em; font-family: 'Crimson Text'; color: white;"><em>Sculpture Trails</em></h2>
+            </div>
+
+
+            <div class = "page fade" id = "trail1name">
+                <div class = "trail_setter">
+                <!--<a class="trailprev" onclick="">&#10094;</a>-->
+                Trail 1
+                <a class="trailnext" onclick="">&#10095;</a>
+                </div>
+    
+                <h1>Trail 1</h1>
+                <div class = "section1">
+                    <div class = "sculpture" style = "float: left">
+                         <img class = "photo" id="image1" src = "" style = "width: 100%; height: auto;">
+                         <input type="file" id="upload1Input" name="upload1File" style="display:none"/>
+                         <button class = "upload" id="upload1"> Upload </button>
+                    </div>
+
+                    <div class = "sculptureText1" style = "float: right;">
+                        <h2>Sculpture 1</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
+                    </div>
+                </div>
+
+                <div class = "section2">
+                    <div class = "sculpture" style = "float: right;">
+                        <img class = "photo" id="image2" src = "" style = "width: 100%; height: auto;">
+                        <input type="file" id="upload2Input" name="upload2File" style="display:none"/>
+                        <button class = "upload" id="upload2"> Upload </button>
+                    </div>
+                    <div class = "sculptureText2" style = "float: left;">
+                        <h2>Sculpture 2</h2>
+                        <p>Risus nec feugiat in fermentum posuere. Commodo ullamcorper a lacus vestibulum sed arcu non odio euismod. Massa tincidunt dui ut ornare lectus. Vitae auctor eu augue ut lectus. Urna condimentum mattis pellentesque id nibh tortor id aliquet lectus. Vestibulum mattis ullamcorper velit sed ullamcorper morbi tincidunt ornare massa. Sed adipiscing diam donec adipiscing tristique. </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="map-box" id="map">
+                <span class="close cursor" onclick="closeMap()">&times;</span>
+                <div class="map-content">
+                    <img src="https://riverlevels.uk/images/og/flood-warning-upper-river-tees.png">
+                    <button class = "trail_button" id = "trail1button" onclick="currentPage(2);closeMap()"> 1 </button>
+                </div>
+            </div>
+
+            <a class="prev" onclick="plusPages(-1)">&#10094;</a>
+            <a class="next" onclick="plusPages(1)">&#10095;</a>
+
+        </div>
+
+        <script src = "ui_elements/sculptureImage.js"></script>
+        <script src = "ui_elements/uploadButton.js"></script>
+
+
+        <script src = "index.js"></script>
+
+    </body>
+</html>
