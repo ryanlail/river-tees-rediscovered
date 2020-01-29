@@ -33,7 +33,7 @@ body, html {
 }
 
 
-.sign-in, .sign-out {
+.g-signin2, .sign-out {
   float: right;
   display: block;
   margin: 15px 10px 0 0;
