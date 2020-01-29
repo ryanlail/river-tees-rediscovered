@@ -28,6 +28,10 @@ class DBHandler {
         });
     }
 
+    disconnect() {
+        this._db.destroy();
+    }
+
     query(sql) {
         return new Promise((resolve, reject) => {
             this._db.query(sql, (err, result) => {

@@ -10,7 +10,7 @@ const { DBHandler } = require('../libs/DBHandler');
 const multer = require('multer');
 const upload = multer({dest:'photos/tmp'});
 const fs = require('fs');
-const spawn = require('child_process').spawn;
+const spawn = require('child_process').spawnSync;
 
 
 
@@ -45,6 +45,7 @@ router.post('/user/getPhotos', async function(req, res) {
                 res.status(500);
                 body = 'Could not complete query';
             }
+            db.disconnect();
         }else {
             res.status(500);
             body = 'Could not connect to database';
@@ -75,6 +76,7 @@ router.get('/getSculpture', async function(req, res){
                 res.status(500);
                 body = 'Could not complete query';
             }
+            db.disconnect();
         }else {
             res.status(500);
             body = 'Could not connect to database';
@@ -105,6 +107,7 @@ router.get('/getTrail', async function(req, res){
                 res.status(500);
                 body = 'Could not complete query';
             }
+            db.disconnect();
         }else {
             res.status(500);
             body = 'Could not connect to database';
@@ -138,6 +141,7 @@ router.get('/getArtist', async function(req, res){
                 res.status(500);
                 body = 'Could not complete query';
             }
+            db.disconnect();
         }else {
             res.status(500);
             body = 'Could not connect to database';
@@ -166,7 +170,6 @@ router.post('/user/addPhoto', upload.single('picture'), async function(req, res)
                 try {
                     fs.mkdirSync('./photos/'+user['sub']+'/'+req.body.sculptureID+'/', {recursive: true});
                     // call stamping function
-                    console.log(req.file.filename);
                     spawn('python', ['./stamp_image.py', req.file.filename, './photos/'+user['sub']+'/'+req.body.sculptureID+'/1']);
                     movFile = true;
                 } catch (err) {
@@ -189,6 +192,7 @@ router.post('/user/addPhoto', upload.single('picture'), async function(req, res)
                             res.status(500);
                             body = 'Could not complete query';
                         }
+                        db.disconnect();
                     }else {
                         res.status(500);
                         body = 'Could not connect to database';
@@ -235,6 +239,7 @@ router.post('/user/getPhoto', async function(req, res){
                 res.status(500);
                 body = 'Could not complete query';
             }
+            db.disconnect();
         }else {
             res.status(500);
             body = 'Could not connect to database';
