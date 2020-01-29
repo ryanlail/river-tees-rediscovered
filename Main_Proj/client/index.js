@@ -17,6 +17,14 @@ function currentPage(n) {
   showPages(pageIndex = n);
 }
 
+function openMap() {
+  document.getElementById("map").style.display = "block";
+}
+
+function closeMap() {
+  document.getElementById("map").style.display = "none";
+}
+
 function showPages(n) {
   var i;
   var pages = document.getElementsByClassName("page");
