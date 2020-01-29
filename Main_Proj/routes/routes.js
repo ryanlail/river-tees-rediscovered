@@ -166,7 +166,8 @@ router.post('/user/addPhoto', upload.single('picture'), async function(req, res)
                 try {
                     fs.mkdirSync('./photos/'+user['sub']+'/'+req.body.sculptureID+'/', {recursive: true});
                     // call stamping function
-                    spawn('python3', ['../stamp_image.py', req.file.filename, 'photos/'+user['sub']+'/'+req.body.sculptureID+'/1']);
+                    console.log(req.file.filename);
+                    spawn('python', ['./stamp_image.py', req.file.filename, './photos/'+user['sub']+'/'+req.body.sculptureID+'/1']);
                     movFile = true;
                 } catch (err) {
                     movFile = false;

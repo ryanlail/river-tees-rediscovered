@@ -32,9 +32,14 @@ def watermark_image(image_location, stamp_location, stamp_mask_location, file_na
 
         # write inverted image to file
 
-        resized = cv2.resize(img, (100,100), interpolation = cv2.INTER_AREA)
+        resized = cv2.resize(img, (1000,1000), interpolation = cv2.INTER_AREA)
 
-        cv2.imwrite(file_name + ".png", resized);
+        try:
+            os.remove(file_name)
+        except:
+            pass
+
+        cv2.imwrite(file_name + ".png", resized)
         os.rename(file_name + ".png", file_name)
 
     else:
