@@ -10,6 +10,7 @@ const { DBHandler } = require('../libs/DBHandler');
 const multer = require('multer');
 const upload = multer({dest:'photos/tmp'});
 const fs = require('fs');
+const spawn = require('child_process').spawn;
 
 
 
@@ -164,7 +165,9 @@ router.post('/user/addPhoto', upload.single('picture'), async function(req, res)
                 let movFile = false;
                 try {
                     fs.mkdirSync('./photos/'+user['sub']+'/'+req.body.sculptureID+'/', {recursive: true});
-                    fs.renameSync('./photos/tmp/'+req.file.filename, './photos/'+user['sub']+'/'+req.body.sculptureID+'/1');
+                    // call stamping function
+                    console.log(req.file.filename);
+                    spawn('python', ['./stamp_image.py', req.file.filename, './photos/'+user['sub']+'/'+req.body.sculptureID+'/1']);
                     movFile = true;
                 } catch (err) {
                     movFile = false;
@@ -192,7 +195,7 @@ router.post('/user/addPhoto', upload.single('picture'), async function(req, res)
                     }
                 }else {
                     res.status(500);
-                    body = 'Cpuld not store file on the system';
+                    body = 'Could not store file on the system';
                 }
             }else {
                 res.status(400);

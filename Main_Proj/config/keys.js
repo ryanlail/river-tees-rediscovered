@@ -2,7 +2,7 @@
 
 module.exports = {
     google: {
-        clientID: '1035530644476-8nms5k21g9tfpn91te98kuip2tb9jhds.apps.googleusercontent.com'
+        clientID: '1036868376146-6e9lh6ttm3g9ovi3f3mkosdk0fh1mqgo.apps.googleusercontent.com'
     },
     mysql:{
         host: 'myeusql.dur.ac.uk', 
