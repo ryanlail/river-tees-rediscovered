@@ -14,10 +14,9 @@ const fs = require('fs');
 
 
 async function verify(token) {
-    console.log(keys.google.clientID);
     const ticket = await client.verifyIdToken({
         idToken: token,
-        audience: "1036868376146-6e9lh6ttm3g9ovi3f3mkosdk0fh1mqgo.apps.googleusercontent.com"
+        audience: keys.google.clientID
     });
     const payload = ticket.getPayload();
     return payload;

@@ -32,9 +32,6 @@ class SculptureImage{
             let fileURL = URL.createObjectURL(fileBlob);
             this._src = fileURL;
             this._element.src = this._src;
-        }else{
-            let successMessage = await success.json();
-            alert(successMessage.data);
         }
     }
 }
