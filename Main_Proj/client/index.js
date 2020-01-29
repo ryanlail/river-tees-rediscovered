@@ -1,5 +1,10 @@
 var pageIndex = 1;
 showPages(pageIndex);
+var userToken;
+
+function onSignIn (googleUser) {
+  userToken = googleUser.getAuthResponse().id_token;
+}
 
 // Next/previous controls
 function plusPages(n) {
