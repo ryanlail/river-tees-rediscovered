@@ -10,6 +10,7 @@
         <link href="https://fonts.googleapis.com/css?family=EB+Garamond&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Crimson+Text&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
     </head>
 
     <body>
@@ -28,30 +29,7 @@
                         });
                     }
                 </script>
-
-                <div id="my-signin2" class="sign-in">
-                    <script>
-                        function onSuccess(googleUser) {
-                            console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
-                        }
-                        function onFailure(error) {
-                            console.log(error);
-                        }
-                        function renderButton() {
-                            gapi.signin2.render('my-signin2', {
-                            'scope': 'profile email',
-                            'width': 195,
-                            'height': 40,
-                            'longtitle': true,
-                            'theme': 'dark',
-                            'onsuccess': onSuccess,
-                            'onfailure': onFailure
-                            });
-                        }
-
-                    </script>
-                    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
-                </div>
+                <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
             </div>
         </div>
         
@@ -93,8 +71,9 @@
                 <h1>Trail 1</h1>
                 <div class = "section1">
                     <div class = "sculpture" style = "float: left">
-                        <input type="file" id="upload2Input" name="upload2File" style="display:none"/>
-                        <button class = "upload" id="upload2"> Upload </button>
+                         <img class = "photo" id="image1" src = "" style = "width: 100%; height: auto;">
+                         <input type="file" id="upload1Input" name="upload1File" style="display:none"/>
+                         <button class = "upload" id="upload1"> Upload </button>
                     </div>
 
                     <div class = "sculptureText1" style = "float: right;">
@@ -105,6 +84,7 @@
 
                 <div class = "section2">
                     <div class = "sculpture" style = "float: right;">
+                        <img class = "photo" id="image2" src = "" style = "width: 100%; height: auto;">
                         <input type="file" id="upload2Input" name="upload2File" style="display:none"/>
                         <button class = "upload" id="upload2"> Upload </button>
                     </div>
@@ -127,6 +107,10 @@
             <a class="next" onclick="plusPages(1)">&#10095;</a>
 
         </div>
+
+        <script src = "ui_elements/sculptureImage.js"></script>
+        <script src = "ui_elements/uploadButton.js"></script>
+
 
         <script src = "index.js"></script>
 
