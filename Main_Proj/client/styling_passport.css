@@ -45,8 +45,8 @@ body, html {
   background-color: #f44336;
   color: white;
   border: #f44336;
-  height: 40px;
-  font-size: 14px;
+  height: 36px;
+  font-size: 12px;
 }
   
 .sign-out:hover {
