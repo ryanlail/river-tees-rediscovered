@@ -10,6 +10,7 @@ const { DBHandler } = require('../libs/DBHandler');
 const multer = require('multer');
 const upload = multer({dest:'photos/tmp'});
 const fs = require('fs');
+const spawn = require('child_process').spawn;
 
 
 
@@ -165,7 +166,7 @@ router.post('/user/addPhoto', upload.single('picture'), async function(req, res)
                 try {
                     fs.mkdirSync('./photos/'+user['sub']+'/'+req.body.sculptureID+'/', {recursive: true});
                     // call stamping function
-
+                    spawn('python3', ['../stamp_image.py', req.file.filename, 'photos/'+user['sub']+'/'+req.body.sculptureID+'/1']);
                     movFile = true;
                 } catch (err) {
                     movFile = false;
