@@ -69,3 +69,12 @@ function initUi(){
   
 }
 
+var images = document.getElementsByClassName("photo");
+var j;
+
+for (j = 0; j < images.length; j++) {
+  if (images[j].getAttribute("src") != "") {
+    images[j].parentNode.classList.add("toggle");
+  }
+}
+
