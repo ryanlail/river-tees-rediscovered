@@ -28,9 +28,9 @@ class DBHandler {
         });
     }
 
-    // disconnect() {
-    //     this._db.destroy();
-    // }
+    disconnect() {
+        this._db.end();
+    }
 
     query(sql) {
         return new Promise((resolve, reject) => {
