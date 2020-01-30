@@ -68,13 +68,3 @@ function initUi(){
   upload2.init(document.getElementById('upload2'), document.getElementById('upload2Input'), image2, 2, '/user/addPhoto');
   
 }
-
-var images = document.getElementsByClassName("photo");
-var j;
-
-for (j = 0; j < images.length; j++) {
-  if (images[j].getAttribute("src") != "") {
-    images[j].parentNode.classList.add("toggle");
-  }
-}
-
