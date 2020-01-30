@@ -11,14 +11,14 @@ class DBHandler {
     }
 
     connect() {
-        this._db = mysql.createConnection({
+        this._db = mysql.createPool({
             host: this._host,
             user: this._user,
             password: this._password,
             database: this._database
         });
         return new Promise((resolve, reject) => {
-            this._db.connect((err) => {
+            this._db.getConnection((err) => {
                 if (err) {
                     resolve(false);
                 }else {
@@ -28,9 +28,9 @@ class DBHandler {
         });
     }
 
-    disconnect() {
-        this._db.destroy();
-    }
+    // disconnect() {
+    //     this._db.destroy();
+    // }
 
     query(sql) {
         return new Promise((resolve, reject) => {

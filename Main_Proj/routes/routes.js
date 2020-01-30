@@ -45,7 +45,7 @@ router.post('/user/getPhotos', async function(req, res) {
                 res.status(500);
                 body = 'Could not complete query';
             }
-            db.disconnect();
+            // db.disconnect();
         }else {
             res.status(500);
             body = 'Could not connect to database';
@@ -76,7 +76,7 @@ router.get('/getSculpture', async function(req, res){
                 res.status(500);
                 body = 'Could not complete query';
             }
-            db.disconnect();
+            // db.disconnect();
         }else {
             res.status(500);
             body = 'Could not connect to database';
@@ -107,7 +107,7 @@ router.get('/getTrail', async function(req, res){
                 res.status(500);
                 body = 'Could not complete query';
             }
-            db.disconnect();
+            // db.disconnect();
         }else {
             res.status(500);
             body = 'Could not connect to database';
@@ -141,7 +141,7 @@ router.get('/getArtist', async function(req, res){
                 res.status(500);
                 body = 'Could not complete query';
             }
-            db.disconnect();
+            // db.disconnect();
         }else {
             res.status(500);
             body = 'Could not connect to database';
@@ -192,7 +192,7 @@ router.post('/user/addPhoto', upload.single('picture'), async function(req, res)
                             res.status(500);
                             body = 'Could not complete query';
                         }
-                        db.disconnect();
+                        // db.disconnect();
                     }else {
                         res.status(500);
                         body = 'Could not connect to database';
@@ -239,7 +239,7 @@ router.post('/user/getPhoto', async function(req, res){
                 res.status(500);
                 body = 'Could not complete query';
             }
-            db.disconnect();
+            // db.disconnect();
         }else {
             res.status(500);
             body = 'Could not connect to database';
