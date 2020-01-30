@@ -14,7 +14,7 @@ def watermark_image(image_location, stamp_location, stamp_mask_location, file_na
 
     if not img is None:
 
-        rows, cols, channgels = du_logo.shape
+        rows, cols, channels = du_logo.shape
         #  size of region of interest extracted from image
         roi = img[0:rows, 0:cols]
 
@@ -31,8 +31,9 @@ def watermark_image(image_location, stamp_location, stamp_mask_location, file_na
 
 
         # write inverted image to file
-
-        resized = cv2.resize(img, (1000,1000), interpolation = cv2.INTER_AREA)
+        
+        #Undone resizeing for the demo
+        resized = img #cv2.resize(img, (1000,1000), interpolation = cv2.INTER_AREA)
 
         try:
             os.remove(file_name)
