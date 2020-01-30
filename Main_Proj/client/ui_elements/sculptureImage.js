@@ -32,6 +32,7 @@ class SculptureImage{
             let fileURL = URL.createObjectURL(fileBlob);
             this._src = fileURL;
             this._element.src = this._src;
+            this._element.parentNode.classList.add("toggle")
         }
     }
 }
