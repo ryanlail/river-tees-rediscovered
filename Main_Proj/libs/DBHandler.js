@@ -18,10 +18,11 @@ class DBHandler {
             database: this._database
         });
         return new Promise((resolve, reject) => {
-            this._db.getConnection((err) => {
+            this._db.getConnection((err, connection) => {
                 if (err) {
                     resolve(false);
                 }else {
+                    connection.destroy();
                     resolve(true);
                 }
             });
