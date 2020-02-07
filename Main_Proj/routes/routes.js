@@ -162,52 +162,55 @@ router.post('/user/addPhoto', upload.single('picture'), async function(req, res)
         verif = false;
     });
     if (verif) {
-        let file = '';
-        if (req.file) {
-            if (req.file.mimetype == 'image/jpeg' || req.file.mimetype == 'image/png') {
-                file = '/photos/tmp/'+req.file.filename;
-                let movFile = false;
-                try {
-                    fs.mkdirSync('./photos/'+user['sub']+'/'+req.body.sculptureID+'/', {recursive: true});
-                    // call stamping function
-                    spawn('python', ['./stamp_image.py', req.file.filename, './photos/'+user['sub']+'/'+req.body.sculptureID+'/1']);
-                    movFile = true;
-                } catch (err) {
-                    movFile = false;
-                }
-                if(movFile){
-                    let db = new DBHandler(keys.mysql.host, keys.mysql.user, keys.mysql.password, keys.mysql.database);
-                    let resp  = await db.connect();
-                    if (resp){
-                        let userID = user['sub'];
-                        let sculptureID = req.body.sculptureID;
-                        let photoPath = userID+'/'+sculptureID+'/';
-                        let sql = 'INSERT INTO PassportPage (UserID, SculptureID, PhotoPath) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE PhotoPath = ?';
-                        sql = mysql.format(sql, [userID, sculptureID, photoPath, photoPath]);
-                        resp = await db.query(sql);
-                        if(resp){
-                            res.status(200);
-                            body = 'Success uploaded new photo';
-                        } else{
+        if (!isNaN(Number(req.body.sculptureID))) {
+            if (req.file) {
+                if (req.file.mimetype == 'image/jpeg' || req.file.mimetype == 'image/png') {
+                    let movFile = false;
+                    try {
+                        fs.mkdirSync('./photos/'+user['sub']+'/'+req.body.sculptureID+'/', {recursive: true});
+                        // call stamping function
+                        spawn('python', ['./stamp_image.py', req.file.filename, './photos/'+user['sub']+'/'+req.body.sculptureID+'/1']);
+                        movFile = true;
+                    } catch (err) {
+                        movFile = false;
+                    }
+                    if(movFile){
+                        let db = new DBHandler(keys.mysql.host, keys.mysql.user, keys.mysql.password, keys.mysql.database);
+                        let resp  = await db.connect();
+                        if (resp){
+                            let userID = user['sub'];
+                            let sculptureID = req.body.sculptureID;
+                            let photoPath = userID+'/'+sculptureID+'/';
+                            let sql = 'INSERT INTO PassportPage (UserID, SculptureID, PhotoPath) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE PhotoPath = ?';
+                            sql = mysql.format(sql, [userID, sculptureID, photoPath, photoPath]);
+                            resp = await db.query(sql);
+                            if(resp){
+                                res.status(200);
+                                body = 'Success uploaded new photo';
+                            } else{
+                                res.status(500);
+                                body = 'Could not complete query';
+                            }
+                            db.disconnect();
+                        }else {
                             res.status(500);
-                            body = 'Could not complete query';
+                            body = 'Could not connect to database';
                         }
-                        db.disconnect();
                     }else {
                         res.status(500);
-                        body = 'Could not connect to database';
+                        body = 'Could not store file on the system';
                     }
                 }else {
-                    res.status(500);
-                    body = 'Could not store file on the system';
+                    res.status(400);
+                    body = 'Uploaded file was not the correct format. PNG or JPEG';
                 }
             }else {
                 res.status(400);
-                body = 'Uploaded file was not the correct format. PNG or JPEG';
+                body = 'No image was sent in the request';
             }
-        }else {
+        } else {
             res.status(400);
-            body = 'No image was sent in the request'
+            body = 'Invalid SculptureID';
         }
     }else{
         res.status(401);
