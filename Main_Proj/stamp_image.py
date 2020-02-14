@@ -31,7 +31,7 @@ def watermark_image(image_location, stamp_location, stamp_mask_location, file_na
 
 
         # write inverted image to file
-        
+
         #Undone resizeing for the demo
         resized = img #cv2.resize(img, (1000,1000), interpolation = cv2.INTER_AREA)
 
@@ -48,8 +48,8 @@ def watermark_image(image_location, stamp_location, stamp_mask_location, file_na
 
 if __name__ == "__main__":
     original_image_name = sys.argv[1] # just image name
-   # stamp_name = sys.argv[2]
-   # stamp_mask_name = sys.argv[3]
+    stamp_name = sys.argv[2]
+    stamp_mask_name = sys.argv[3]
     file_name = sys.argv[2] # photos/user_id/sculpture_id/1
 
-    watermark_image(original_image_name, "duLogo.png", "logoMask.png", file_name)
+    watermark_image(original_image_name, stamp_name, stamp_mask_name, file_name)
