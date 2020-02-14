@@ -1,3 +1,5 @@
+'use strict';
+
 var pageIndex = 1;
 showPages(pageIndex);
 let currentUser = undefined;
