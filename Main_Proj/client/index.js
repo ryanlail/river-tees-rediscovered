@@ -133,10 +133,12 @@ function showPages(current, n) {
       pages[current-1].style.left = "500px";
       pages[pageIndex-2].style.display = "inline-block";
       pages[pageIndex-2].style.opacity = "0";
+      pages[pageIndex-2].style.transition = "transform 0";
       pages[pageIndex-2].style.transformOrigin = "right";
       pages[pageIndex-2].style.transform = "rotateY(-180deg)";
       setTimeout(function() {
         pages[current-1].style.transition = "transform .4s ease-in";
+        pages[pageIndex-2].style.transition = "transform .4s ease-in";
         pages[pageIndex-1].style.display = "inline-block";
         pages[current-1].style.transform = "rotateY(-180deg)";
         pages[pageIndex-2].style.transform = "rotateY(0deg)";
@@ -202,7 +204,7 @@ function showPages(current, n) {
         enableButtons();
       }, 400);
     }
-  } else { // Single page
+  } else { // Single page spread
     if (current<pageIndex) { // Page forward
       pages[current-1].style.zIndex = "1";
       pages[current-1].style.display = "inline-block";
@@ -219,6 +221,7 @@ function showPages(current, n) {
       pages[pageIndex-1].style.display = "inline-block";
       pages[pageIndex-1].style.zIndex = "1";
       pages[pageIndex-1].style.opacity = "0";
+      pages[pageIndex-1].style.transition = "transform 0";
       pages[pageIndex-1].style.transform = "rotateY(-90deg)";
       setTimeout(function() {
         pages[pageIndex-1].style.transition = "transform .2s ease-in";
