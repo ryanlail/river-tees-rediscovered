@@ -54,6 +54,12 @@ function prevPages() {
   }
 }
 
+function currentPage(n) {
+  var current = pageIndex;
+  disableButtons();
+  showPages(current, pageIndex = n);
+}
+
 function disableButtons() {
   document.getElementById("next").classList = "off";
   document.getElementById("prev").classList = "off";
@@ -66,12 +72,6 @@ function enableButtons() {
   document.getElementById("prev").classList = "on";
   document.getElementById("next").onclick = nextPages;
   document.getElementById("prev").onclick = prevPages;
-}
-
-function currentPage(n) {
-  var current = pageIndex;
-  disableButtons();
-  showPages(current, pageIndex = n);
 }
 
 function showPages(current, n) {
@@ -100,7 +100,11 @@ function showPages(current, n) {
   
   if (double.matches) { // If there's a double page spread
     if (pageIndex % 2 == 0) {pageIndex += 1}
-    if (current<pageIndex && current != 1) { // Page forward
+    if (current == pageIndex) { // No change
+      pages[pageIndex-2].style.display = "inline-block";
+      pages[pageIndex-1].style.display = "inline-block";
+      enableButtons();
+    } else if (current<pageIndex && current != 1) { // Page forward
       pages[current-2].style.display = "inline-block";
       pages[current-1].style.display = "inline-block";
       pages[current-1].style.transform = "rotateY(-180deg)";
@@ -205,7 +209,10 @@ function showPages(current, n) {
       }, 400);
     }
   } else { // Single page spread
-    if (current<pageIndex) { // Page forward
+    if (current == pageIndex) { // No change
+      pages[pageIndex-1].style.display = "inline-block";
+      enableButtons();
+    } else if (current<pageIndex) { // Page forward
       pages[current-1].style.zIndex = "1";
       pages[current-1].style.display = "inline-block";
       pages[current-1].style.transform = "rotateY(-180deg)";
