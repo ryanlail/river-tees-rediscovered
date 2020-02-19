@@ -77,8 +77,8 @@ function currentPage(n) {
 function showPages(current, n) {
   var i;
   var page_collection = document.getElementsByClassName("page");
-  for (var a=[], i=page_collection.length; i;) a[--i] = page_collection[i];
-  var pages = a.reverse();
+  for (var pages=[], i=page_collection.length; i;) pages[--i] = page_collection[i];
+
   if (n > pages.length) {pageIndex = 1} 
   if (n < 1) {pageIndex = pages.length}
   for (i = 0; i < pages.length; i++) {
@@ -98,41 +98,66 @@ function showPages(current, n) {
     return;
   }
   
-  if (double.matches) {
+  if (double.matches) { // If there's a double page spread
     if (pageIndex % 2 == 0) {pageIndex += 1}
-    if (current<pageIndex && current != 1) {
+    if (current<pageIndex && current != 1) { // Page forward
       pages[current-2].style.display = "inline-block";
       pages[current-1].style.display = "inline-block";
       pages[current-1].style.transform = "rotateY(-180deg)";
+      pages[current-1].style.zIndex = "1";
       pages[pageIndex-1].style.display = "inline-block";
+      pages[pageIndex-2].style.display = "inline-block";
+      pages[pageIndex-2].style.opacity = "0";
+      pages[pageIndex-2].style.transition = "transform 0";
+      pages[pageIndex-2].style.transformOrigin = "right";
+      pages[pageIndex-2].style.transform = "rotateY(180deg)";
       setTimeout(function() {
-        pages[pageIndex-2].style.display = "inline-block";
-        pages[current-2].style.display = "none";
+        pages[pageIndex-2].style.transition = "transform .4s ease-in";
+        pages[pageIndex-2].style.transform = "rotateY(0deg)";
+      }, 1);
+      setTimeout(function() {
+        pages[pageIndex-2].style.opacity = "1";
         pages[current-1].style.display = "none";
         pages[current-1].style.transform = "rotateY(0deg)"
-        enableButtons();
+        pages[current-1].style.zIndex = "0";
       }, 250);
-    } else if (current<pageIndex && current==1) {
+      setTimeout(function() {
+        pages[pageIndex-2].style.transformOrigin = "left";
+        pages[current-2].style.display = "none";
+        enableButtons();
+      }, 400);
+    } else if (current<pageIndex && current==1) { // Book opening
       pages[current-1].style.transition = "left .2s";
       pages[current-1].style.display = "inline-block";
+      pages[current-1].style.zIndex = "1";
       pages[current-1].style.left = "500px";
+      pages[pageIndex-2].style.display = "inline-block";
+      pages[pageIndex-2].style.opacity = "0";
+      pages[pageIndex-2].style.transformOrigin = "right";
+      pages[pageIndex-2].style.transform = "rotateY(-180deg)";
       setTimeout(function() {
         pages[current-1].style.transition = "transform .4s ease-in";
         pages[pageIndex-1].style.display = "inline-block";
         pages[current-1].style.transform = "rotateY(-180deg)";
+        pages[pageIndex-2].style.transform = "rotateY(0deg)";
       }, 200);
       setTimeout(function() {
-        pages[pageIndex-2].style.display = "inline-block";
+        pages[pageIndex-2].style.opacity = "1";
         pages[current-1].style.display = "none";
+        pages[current-1].style.zIndex = "0";
         pages[current-1].style.transform = "rotateY(0deg)";
         pages[current-1].style.left = "0";
-        enableButtons();
       }, 450);
-    } else if (pageIndex==1) {
+      setTimeout(function() {
+        pages[pageIndex-2].style.transformOrigin = "left";
+        enableButtons();
+      }, 600);
+    } else if (pageIndex==1) { // Book closing
       pages[current-1].style.display = "inline-block";
       pages[current-2].style.display = "inline-block";
       pages[0].style.display = "inline-block";
-      pages[0].style.opacity = "0";;
+      pages[0].style.opacity = "0";
+      pages[0].style.zIndex = "1";
       pages[0].style.left = "500px";
       pages[current-2].style.transformOrigin = "right";
       pages[current-2].style.transform = "rotateY(-180deg)";
@@ -142,46 +167,70 @@ function showPages(current, n) {
       }, 1);
       setTimeout(function() {
         pages[0].style.opacity = "1";;
-        pages[current-1].style.display = "none";
+        pages[current-2].style.display = "none";
       }, 275);
       setTimeout(function() {
-        pages[current-2].style.display = "none";
+        pages[current-1].style.display = "none";
         pages[current-2].style.transformOrigin = "left";
         pages[current-2].style.transform = "rotateY(0deg)";
+        pages[0].style.zIndex = "0";
         pages[0].style.transition = "left .2s";
         pages[0].style.left = "0";
         enableButtons();
       }, 400);
       pages[0].style.transition = "transform .4s ease-in";
-    } else {
+    } else { // Page backwards
+      pages[current-1].style.display = "inline-block";
+      pages[current-2].style.transformOrigin = "right";
+      pages[current-2].style.display = "inline-block";
+      pages[current-2].style.transform = "rotateY(180deg)";
       pages[pageIndex-2].style.display = "inline-block";
       pages[pageIndex-1].style.display = "inline-block";
-      enableButtons();
+      pages[pageIndex-1].style.opacity = "0"
+      pages[pageIndex-1].style.transform = "rotateY(-180deg)";
+      setTimeout(function() {
+        pages[pageIndex-1].style.transform = "rotateY(0deg)";
+      }, 1);
+      setTimeout(function() {
+        pages[current-2].style.display = "none";
+        pages[current-2].style.transformOrigin = "left";
+        pages[current-2].style.transform = "rotateY(0deg)";
+        pages[pageIndex-1].style.opacity = "1"
+      }, 250);
+      setTimeout(function() {
+        pages[current-1].style.display = "none";
+        enableButtons();
+      }, 400);
     }
-  } else {
-    if (current<pageIndex) {
+  } else { // Single page
+    if (current<pageIndex) { // Page forward
+      pages[current-1].style.zIndex = "1";
       pages[current-1].style.display = "inline-block";
       pages[current-1].style.transform = "rotateY(-180deg)";
       pages[pageIndex-1].style.display = "inline-block";
       setTimeout(function() {
         pages[current-1].style.display = "none";
+        pages[current-1].style.zIndex = "0";
         pages[current-1].style.transform = "rotateY(0deg)"
         enableButtons();
       }, 250);
-    } else {
+    } else { // Page backwards
       pages[current-1].style.display = "inline-block";
       pages[pageIndex-1].style.display = "inline-block";
+      pages[pageIndex-1].style.zIndex = "1";
       pages[pageIndex-1].style.opacity = "0";
-      pages[pageIndex-1].style.transition = "transform 0";
-      pages[pageIndex-1].style.transform = "rotateY(-180deg)";
+      pages[pageIndex-1].style.transform = "rotateY(-90deg)";
       setTimeout(function() {
-        pages[pageIndex-1].style.transition = "transform .4s ease-in";
+        pages[pageIndex-1].style.transition = "transform .2s ease-in";
+        pages[pageIndex-1].style.opacity = "1";
         pages[pageIndex-1].style.transform = "rotateY(0deg)";
       }, 1);
       setTimeout(function() {
-        pages[pageIndex-1].style.opacity = "1";
+        pages[current-1].style.display = "none";
+        pages[pageIndex-1].style.zIndex = "0";
+        pages[pageIndex-1].style.transition = "transform .4s ease-in";
         enableButtons();
-      }, 275);
+      }, 200)
     }
   }
 }
