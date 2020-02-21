@@ -85,7 +85,8 @@ function showPages(current, n) {
     pages[i].style.display = "none"; 
   }
 
-  if (document.getElementById("next").classList == "on") {
+  // Screen resizing
+  if (document.getElementById("next").classList == "on") { 
     if (pageIndex == 1) {
       pages[0].style.display = "inline-block";
     } else if (double.matches) {
@@ -98,6 +99,7 @@ function showPages(current, n) {
     return;
   }
   
+  // Page switching
   if (double.matches) { // If there's a double page spread
     if (pageIndex % 2 == 0) {pageIndex += 1}
     if (current == pageIndex) { // No change
@@ -191,9 +193,9 @@ function showPages(current, n) {
       pages[current-2].style.display = "inline-block";
       pages[current-2].style.transform = "rotateY(180deg)";
       pages[pageIndex-2].style.display = "inline-block";
+      pages[pageIndex-1].style.transform = "rotateY(-180deg)";
       pages[pageIndex-1].style.display = "inline-block";
       pages[pageIndex-1].style.opacity = "0"
-      pages[pageIndex-1].style.transform = "rotateY(-180deg)";
       setTimeout(function() {
         pages[pageIndex-1].style.transform = "rotateY(0deg)";
       }, 1);
@@ -268,4 +270,61 @@ for (i = 0; i < acc.length; i++) {
     } 
   });
 }
+
+//http://www.javascriptkit.com/javatutors/touchevents2.shtml
+function swipedetect(el, callback){
+  
+    var touchsurface = el,
+    swipedir,
+    startX,
+    startY,
+    distX,
+    distY,
+    threshold = 150, //required min distance traveled to be considered swipe
+    restraint = 100, // maximum distance allowed at the same time in perpendicular direction
+    allowedTime = 300, // maximum time allowed to travel that distance
+    elapsedTime,
+    startTime,
+    handleswipe = callback || function(swipedir){}
+  
+    touchsurface.addEventListener('touchstart', function(e){
+        var touchobj = e.changedTouches[0]
+        swipedir = 'none'
+        distX = 0
+        distY = 0
+        startX = touchobj.pageX
+        startY = touchobj.pageY
+        startTime = new Date().getTime() // record time when finger first makes contact with surface
+        e.preventDefault()
+    }, false)
+  
+    touchsurface.addEventListener('touchmove', function(e){
+        e.preventDefault() // prevent scrolling when inside DIV
+    }, false)
+  
+    touchsurface.addEventListener('touchend', function(e){
+        var touchobj = e.changedTouches[0]
+        distX = touchobj.pageX - startX // get horizontal dist traveled by finger while in contact with surface
+        distY = touchobj.pageY - startY // get vertical dist traveled by finger while in contact with surface
+        elapsedTime = new Date().getTime() - startTime // get time elapsed
+        if (elapsedTime <= allowedTime){ // first condition for awipe met
+            if (Math.abs(distX) >= threshold && Math.abs(distY) <= restraint){ // 2nd condition for horizontal swipe met
+                swipedir = (distX < 0)? 'left' : 'right' // if dist traveled is negative, it indicates left swipe
+            }
+            else if (Math.abs(distY) >= threshold && Math.abs(distX) <= restraint){ // 2nd condition for vertical swipe met
+                swipedir = (distY < 0)? 'up' : 'down' // if dist traveled is negative, it indicates up swipe
+            }
+        }
+        handleswipe(swipedir)
+        e.preventDefault()
+    }, false)
+}
+
+window.addEventListener('load', function(){
+  var el = document.getElementById('flipbook');
+  swipedetect(el, function(swipedir) {
+    if (swipedir=='left') {nextPages();}
+    else if (swipedir=='right') {prevPages();};
+  })
+}, false)
 
