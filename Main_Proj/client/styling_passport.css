@@ -320,30 +320,6 @@ body, html {
   to {opacity: 1}
 }*/
 
-.map-box {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  padding-top: 100px;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0,0,0,0.7);
-}
-
-.map-content {
-  position: relative;
-  background-color: #fefefe;
-  margin: auto;
-  padding: 0;
-  width: 90%;
-  max-height: 100%;
-  max-width: 1000px;
-  overflow: auto;
-}
-
 .close {
   color: white;
   position: absolute;
@@ -379,6 +355,26 @@ body, html {
   opacity: 0.6;
 }
 
+.map-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  width: 90%;
+  max-height: 100%;
+  max-width: 1000px;
+  overflow: auto;
+}
 
-
-
+.map-box {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.7);
+}
