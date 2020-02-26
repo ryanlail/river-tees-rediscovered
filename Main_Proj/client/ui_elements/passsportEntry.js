@@ -12,11 +12,11 @@ class PassportEntry {
     }
 
 
-    init(visible, hidden, image, sculptureID, endpoint) {
-        this._uploadButton.init(visible, hidden, image, sculptureID, endpoint);
+    init(visible, hidden, endpoint) {
+        this._uploadButton.init(visible, hidden, this._sculptureImage, this._sculptureID, endpoint);
     }
 
-    refreshSculptureInfo(idToken){
+    async refreshSculptureInfo(){
         let api = true;
         let success = await fetch('/getSculpture?sculptureID='+this._sculptureID).catch(() => {
             api = false;
@@ -32,7 +32,7 @@ class PassportEntry {
         }
     }
 
-    refreshArtistInfo(idToken) {
+    async refreshArtistInfo() {
         let api = true;
         let success = await fetch('/getArtist?artistID='+this._artistID).catch(() => {
             api = false;
@@ -45,7 +45,7 @@ class PassportEntry {
     }
 
 
-    refreshTrailInfo(idToken) {
+    async refreshTrailInfo() {
         let api = true;
         let success = await fetch('/getTrail?trailID='+this._trailID).catch(() => {
             api = false;
@@ -59,11 +59,11 @@ class PassportEntry {
 
 
 
-    refresh(idToken) {
-        sculptureImage.refreshDatabase(idToken, this._sculptureID);
-        this.refreshSculptureInfo(idToken);
-        this.refreshArtistInfo(idToken);
-        this.refreshTrailInfo(idToken);
+    async refresh(idToken) {
+        this._sculptureImage.refreshDatabase(idToken, this._sculptureID);
+        this.refreshSculptureInfo();
+        this.refreshArtistInfo();
+        this.refreshTrailInfo();
     }
 
 
