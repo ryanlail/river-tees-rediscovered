@@ -62,7 +62,6 @@ function initUi(){
   let image2 = new SculptureImage("", document.getElementById('image2'), '/user/getPhoto');
   image1.refreshDatabase(currentUser.getAuthResponse().id_token, 1);
   image2.refreshDatabase(currentUser.getAuthResponse().id_token, 2);
-  
   let upload1 = new UploadButton();
   upload1.init(document.getElementById('upload1'), document.getElementById('upload1Input'), image1, 1, '/user/addPhoto');
   
