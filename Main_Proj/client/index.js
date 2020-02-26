@@ -22,9 +22,32 @@ function initUi(){
   image2.refreshDatabase(currentUser.getAuthResponse().id_token, 2);
   let upload2 = new UploadButton();
   upload2.init(document.getElementById('upload2'), document.getElementById('upload2Input'), image2, 2, '/user/addPhoto');
-  
+  getCoords();
 }
 
+async function getCoords(){
+  for(let i=1; i<2; i++){
+  /*  let success = await fetch('/getCoords').catch(() =>{
+        alert('Could not connect to the server');
+        // api = false;
+    });
+    console.log(success);
+    //if(!api) return;
+    if(success.ok) {
+        let body = await success.json();
+        console.log(body[0]);
+        let mapHTML = '<iframe width="450" height="500" src="https://www.google.com/maps/d/u/0/embed?mid=1ls4d0fUqWY7Ux-VMLOftnxx-UTSEcRKx&z=12&ll=' + body[0] + '"></iframe>';
+        document.getElementById("iframe-map" + i).innerHTML(mapHTML); 
+    } */
+
+    let response = await fetch('http://localhost:8080/getCoords/' + i);
+    let body = await response.json();
+    let mapHTML = '<iframe width="450" height="500" src="https://www.google.com/maps/d/u/0/embed?mid=1ls4d0fUqWY7Ux-VMLOftnxx-UTSEcRKx&z=12&ll=' + body[0]["StartCoordinate"] + '"></iframe>';
+    document.getElementById("iframe-map" + i).innerHTML = mapHTML; 
+
+
+  }
+}
 /////////////////////////
 
 

@@ -148,7 +148,7 @@ router.get('/getArtist', async function(req, res){
         }
     }else{
         res.status(401);
-        body = 'Did not specify and artist in the request';
+        body = 'Did not specify an artist in the request';
     }
     res.send({data: body});
 });
@@ -255,6 +255,59 @@ router.post('/user/getPhoto', async function(req, res){
 });
 
 
+// Function get coordinate of start of trail based of given id
+router.get('/getCoords/:trailID', async (req, res) => {
+    let body = '';
+    let trailID = req.params.trailID;
+    let db = new DBHandler(keys.mysql.host, keys.mysql.user, keys.mysql.password, keys.mysql.database);
+    let resp  = await db.connect();
+    if (resp){
+        let sql = 'SELECT StartCoordinate FROM Trail WHERE TrailID = ?';
+        sql = mysql.format(sql, [trailID]);
+        resp = await db.query(sql);
+        if(resp){
+            res.status(200);
+            body = resp;
+        } else{
+            res.status(500);
+            body = 'Could not complete query';
+        }
+        db.disconnect();
+    }else {
+        res.status(500);
+        body = 'Could not connect to database';
+    }
+    res.send(body);
+});
 
+
+   /* res.type('json');
+    let body = '';
+    let trailID = req.query.trailID;
+    if(trailID){
+        let db = new DBHandler(keys.mysql.host, keys.mysql.user, keys.mysql.password, keys.mysql.database);
+        let resp  = await db.connect();
+        if (resp){
+            let sql = 'SELECT StartCoordinate FROM Trail WHERE TrailID = ?';
+            sql = mysql.format(sql, [trailID]);
+            resp = await db.query(sql);
+            if(resp){
+                res.status(200);
+                body = resp;
+            } else{
+                res.status(500);
+                body = 'Could not complete query';
+            }
+            db.disconnect();
+        }else {
+            res.status(500);
+            body = 'Could not connect to database';
+        }
+    }else{
+        res.status(401);
+        body = 'Did not specify a trail in the request';
+    }
+    res.send({data: body});
+}); */
 
 module.exports = {router}
