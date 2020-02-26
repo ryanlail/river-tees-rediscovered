@@ -13,13 +13,13 @@ function postImage() {
 
 function initUi(){
   let image1 = new SculptureImage("", document.getElementById('image1'), '/user/getPhoto');
-  let image2 = new SculptureImage("", document.getElementById('image2'), '/user/getPhoto');
-  image2.refreshDatabase(currentUser.getAuthResponse().id_token, 2);
-  
   let upload1 = new UploadButton();
   let pEntry1 = new PassportEntry(1, image1, upload1, null);
   pEntry1.init(document.getElementById('upload1'), document.getElementById('upload1Input'), '/user/addPhoto');
   pEntry1.refresh(currentUser.getAuthResponse().id_token);
+  pEntry1.ref
+  let image2 = new SculptureImage("", document.getElementById('image2'), '/user/getPhoto');
+  image2.refreshDatabase(currentUser.getAuthResponse().id_token, 2);
   let upload2 = new UploadButton();
   upload2.init(document.getElementById('upload2'), document.getElementById('upload2Input'), image2, 2, '/user/addPhoto');
   
