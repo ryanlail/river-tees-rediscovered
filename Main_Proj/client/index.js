@@ -271,6 +271,7 @@ for (i = 0; i < acc.length; i++) {
   });
 }
 
+
 //http://www.javascriptkit.com/javatutors/touchevents2.shtml
 function swipedetect(el, callback){
   
@@ -286,6 +287,7 @@ function swipedetect(el, callback){
     elapsedTime,
     startTime,
     handleswipe = callback || function(swipedir){}
+
   
     touchsurface.addEventListener('touchstart', function(e){
         var touchobj = e.changedTouches[0]
