@@ -3,6 +3,7 @@
 
 
 class PassportEntry {
+
     constructor(sculptureID, sculptureImage, uploadButton, textArea) {
         this._sculptureID = sculptureID;
         this._sculptureImage = sculptureImage;
@@ -14,7 +15,6 @@ class PassportEntry {
     init(visible, hidden, endpoint) {
         this._uploadButton.init(visible, hidden, this._sculptureImage, this._sculptureID, endpoint);
     }
-
 
     async refreshSculptureInfo(){
         let api = true;

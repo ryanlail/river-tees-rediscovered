@@ -327,4 +327,3 @@ window.addEventListener('load', function(){
     else if (swipedir=='right') {prevPages();};
   })
 }, false)
-
