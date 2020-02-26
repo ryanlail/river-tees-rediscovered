@@ -52,4 +52,4 @@ if __name__ == "__main__":
     stamp_mask_name = "Sculpture" + sys.argv[2] + "Mask.png"
     file_name = sys.argv[3] # photos/user_id/sculpture_id/1
 
-    watermark_image(original_image_name, sculptureID, file_name)
+    watermark_image(original_image_name, stamp_name, stamp_mask_name, file_name)
