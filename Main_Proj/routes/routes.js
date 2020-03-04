@@ -281,12 +281,12 @@ router.get('/getCoords', async (req, res) => {
 });
 
 
-router.get('/getSculptCount', async (_, res) =>{
+router.get('/getTrailCount', async (_, res) =>{
     let body = '';
     let db = new DBHandler(keys.mysql.host, keys.mysql.user, keys.mysql.password, keys.mysql.database);
     let resp  = await db.connect();
     if (resp){
-        let sql = 'SELECT COUNT(SculptureID) AS Count FROM Sculpture;'
+        let sql = 'SELECT COUNT(TrailID) AS Count FROM Trail;'
         sql = mysql.format(sql);
         resp = await db.query(sql);
         if(resp){
