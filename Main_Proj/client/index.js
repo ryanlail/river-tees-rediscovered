@@ -26,6 +26,9 @@ function initUi(){
 }
 
 async function getCoords(){
+  let response = await fetch('getSculptCount');
+  let hmm = await response.json();
+  console.log(hmm.data[0].Count);
   for(let i=1; i<2; i++){
   /*  let success = await fetch('/getCoords').catch(() =>{
         alert('Could not connect to the server');

@@ -256,9 +256,9 @@ router.post('/user/getPhoto', async function(req, res){
 
 
 // Function get coordinate of start of trail based of given id
-router.get('/getCoords/:trailID', async (req, res) => {
+router.get('/getCoords', async (req, res) => {
     let body = '';
-    let trailID = req.params.trailID;
+    let trailID = req.query.trailID;
     let db = new DBHandler(keys.mysql.host, keys.mysql.user, keys.mysql.password, keys.mysql.database);
     let resp  = await db.connect();
     if (resp){
@@ -277,7 +277,7 @@ router.get('/getCoords/:trailID', async (req, res) => {
         res.status(500);
         body = 'Could not connect to database';
     }
-    res.send(body);
+    res.send({data: body});
 });
 
 
