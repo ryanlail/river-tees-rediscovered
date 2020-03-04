@@ -304,4 +304,30 @@ router.get('/getTrailCount', async (_, res) =>{
     res.send({data: body});
 });
 
+
+router.get('/getSculptCount', async (req, res) => {
+    let body = '';
+    let trailID = req.query.trailID;
+    let db = new DBHandler(keys.mysql.host, keys.mysql.user, keys.mysql.password, keys.mysql.database);
+    let resp  = await db.connect();
+    if (resp){
+        let sql = 'SELECT COUNT(SculptureID) AS Count FROM Sculpture WHERE TrailID = ?;'
+        sql = mysql.format(sql, [trailID]);
+        resp = await db.query(sql);
+        if(resp){
+            res.status(200);
+            body = resp;
+        } else{
+            res.status(500);
+            body = 'Could not complete query';
+        }
+        db.disconnect();
+    }else {
+        res.status(500);
+        body = 'Could not connect to database';
+    }
+    res.send({data: body});
+});
+
+
 module.exports = {router}
