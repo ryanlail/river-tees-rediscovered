@@ -26,10 +26,13 @@ function initUi(){
 }
 
 async function getCoords(){
+  
   let noSculpturesResponse = await fetch('/getSculptCount');
   let noSculpturesJson = await noSculpturesResponse.json();
   let noSculptures = noSculpturesJson.data[0].Count;
   for(let i=1; i<=noSculptures; i++){
+  
+
 
     let response = await fetch('/getCoords/' + i);
     let body = await response.json();
