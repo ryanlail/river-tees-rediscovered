@@ -281,33 +281,27 @@ router.get('/getCoords/:trailID', async (req, res) => {
 });
 
 
-   /* res.type('json');
+router.get('/getSculptCount', async (_, res) =>{
     let body = '';
-    let trailID = req.query.trailID;
-    if(trailID){
-        let db = new DBHandler(keys.mysql.host, keys.mysql.user, keys.mysql.password, keys.mysql.database);
-        let resp  = await db.connect();
-        if (resp){
-            let sql = 'SELECT StartCoordinate FROM Trail WHERE TrailID = ?';
-            sql = mysql.format(sql, [trailID]);
-            resp = await db.query(sql);
-            if(resp){
-                res.status(200);
-                body = resp;
-            } else{
-                res.status(500);
-                body = 'Could not complete query';
-            }
-            db.disconnect();
-        }else {
+    let db = new DBHandler(keys.mysql.host, keys.mysql.user, keys.mysql.password, keys.mysql.database);
+    let resp  = await db.connect();
+    if (resp){
+        let sql = 'SELECT COUNT(SculptureID) AS Count FROM Sculpture;'
+        sql = mysql.format(sql);
+        resp = await db.query(sql);
+        if(resp){
+            res.status(200);
+            body = resp;
+        } else{
             res.status(500);
-            body = 'Could not connect to database';
+            body = 'Could not complete query';
         }
-    }else{
-        res.status(401);
-        body = 'Did not specify a trail in the request';
+        db.disconnect();
+    }else {
+        res.status(500);
+        body = 'Could not connect to database';
     }
     res.send({data: body});
-}); */
+});
 
 module.exports = {router}
