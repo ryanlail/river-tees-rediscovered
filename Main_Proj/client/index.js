@@ -28,8 +28,18 @@ function initUi(){
 async function generatePassport(){
   let noTrails = (await (await fetch('/getTrailCount')).json()).data[0].Count;
   if (noTrails === undefined) return;
+  let parentElement = document.getElementById('flipbook');
+  for (let trail = 1;trail <= noTrails;i++){
+    let trailInfo = (await (await fetch('/trailInfo?trailID='+trail)).json()).data;
+    if(trailInfo === undefined) return;
+    let trailName = (await (await fetch('/getTrail?trailID='+trail)).json()).data;
+    parentElement.innerHTML += '<div class = "page fade left" id = "trail'+trail+'name">\
+                                 <h1>'+trailName+'</h1>\
+                                 <div id="iframe-map'+trail+'"></div>\
+                                 </div>';
 
-  for (let i = 1;i <= noTrails;i++){
+
+
 
 
   }
