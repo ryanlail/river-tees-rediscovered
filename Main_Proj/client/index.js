@@ -5,6 +5,7 @@ let currentUser = undefined;
 async function onSignIn (googleUser) {
   currentUser = googleUser;
   initUi();
+  showPages(pageIndex, pageIndex);
 }
 
 function postImage() {
@@ -12,16 +13,17 @@ function postImage() {
 }
 
 function initUi(){
-  let image1 = new SculptureImage("", document.getElementById('image1'), '/user/getPhoto');
-  let upload1 = new UploadButton();
-  let pEntry1 = new PassportEntry(1, image1, upload1, null);
-  pEntry1.init(document.getElementById('upload1'), document.getElementById('upload1Input'), '/user/addPhoto');
-  pEntry1.refresh(currentUser.getAuthResponse().id_token);
+  //let image1 = new SculptureImage("", document.getElementById('image1'), '/user/getPhoto');
+  //let upload1 = new UploadButton();
+  //let pEntry1 = new PassportEntry(1, image1, upload1, null);
+  //pEntry1.init(document.getElementById('upload1'), document.getElementById('upload1Input'), '/user/addPhoto');
+  //pEntry1.refresh(currentUser.getAuthResponse().id_token);
 
   // let image2 = new SculptureImage("", document.getElementById('image2'), '/user/getPhoto');
   // image2.refreshDatabase(currentUser.getAuthResponse().id_token, 2);
   // let upload2 = new UploadButton();
   // upload2.init(document.getElementById('upload2'), document.getElementById('upload2Input'), image2, 2, '/user/addPhoto');
+  generatePassport();
   getCoords();
 }
 
@@ -40,6 +42,7 @@ async function generatePassport(){
                                  </div>';
     let pageFade = '';
     let pageFloat = '';
+    let textFloat = '';
     let section = 0;
     let count = 0;
     for (const sculpt of trailInfo) {
@@ -50,9 +53,11 @@ async function generatePassport(){
       }
       if(count%2 == 0) {
         pageFloat = 'left';
+        textFloat = 'right';
         section = 1;
       } else{
         pageFloat = 'right';
+        textFloat = 'left';
         section = 2;
         parentElement.innerHTML += '<div class = "page fade '+pageFade+'" id = "trail'+trail+'name">\
         <h1>'+trailName+'</h1>'; //talk to phillip about link here
@@ -61,11 +66,20 @@ async function generatePassport(){
       <div class = "sculpture" style = "float: '+pageFloat+'">\
       <img class = "photo" id="image'+(count+1)+'" src="" style = "width: 100%; height: auto;">\
       <input type="file" id="upload'+(count+1)+'Input" name="upload'+(count+1)+'File" style="display:none"/>\
-      <button class="upload" id="upload'+(count+1)+'"> Upload </button>\</div>'
-
-
-
-
+      <button class="upload" id="upload'+(count+1)+'"> Upload </button>\
+      </div>\
+      <div class="sculptureText'+(count+1)+'" id="info'+(count+1)+'" style="float: '+textFloat+';">\
+      <h2>'+sculpt.Title+'</h2>\
+      <p>'+sculpt.Description+'</p>\
+      </div>\
+      </div>';
+      count++;
+      if(count%2 == 0){
+        parentElement.innerHTML += '</div>'
+      }
+    }
+    if(count%2 != 0){
+        parentElement.innerHTML += '</div>'
     }
   }
 }
@@ -94,7 +108,6 @@ async function getCoords(){
 var pageIndex = 1;
 var double = window.matchMedia("(min-width: 1000px)")
 
-showPages(pageIndex, pageIndex);
 double.addListener(showPages)
 
 function nextPages() {
