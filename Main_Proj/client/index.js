@@ -1,6 +1,7 @@
 'use strict'; 
 
 let currentUser = undefined;
+let pEntries = [];
 
 async function onSignIn (googleUser) {
   currentUser = googleUser;
@@ -13,26 +14,37 @@ function postImage() {
 }
 
 async function initUi(){
-  //let image1 = new SculptureImage("", document.getElementById('image1'), '/user/getPhoto');
-  //let upload1 = new UploadButton();
-  //let pEntry1 = new PassportEntry(1, image1, upload1, null);
-  //pEntry1.init(document.getElementById('upload1'), document.getElementById('upload1Input'), '/user/addPhoto');
-  //pEntry1.refresh(currentUser.getAuthResponse().id_token);
-
-  // let image2 = new SculptureImage("", document.getElementById('image2'), '/user/getPhoto');
-  // image2.refreshDatabase(currentUser.getAuthResponse().id_token, 2);
-  // let upload2 = new UploadButton();
-  // upload2.init(document.getElementById('upload2'), document.getElementById('upload2Input'), image2, 2, '/user/addPhoto');
   await generatePassport();
   getCoords();
+  addUIElements();
 }
+
+
+async function addUIElements(){
+  let offset = 0;
+  let noTrails = (await (await fetch('/getTrailCount')).json()).data[0].Count;
+  if (noTrails === undefined) return;
+  for (let trail = 1;trail<=noTrails; trail++){
+    let noSculpt = (await (await fetch('/getSculptCount?trailID='+trail)).json()).data[0].Count;
+    if (noSculpt === undefined) return;
+    for(let count = 0; count < noSculpt; count++){
+      let pEntry = new PassportEntry(count+offset+1, null);
+      pEntry.init(document.getElementById('upload'+(count+offset+1)), document.getElementById('upload'+(count+offset+1)+'Input'), '/user/addPhoto');
+      pEntry.refresh(currentUser.getAuthResponse().id_token);
+      pEntries.push(pEntry);
+    }
+    offset += noSculpt;
+  }
+}
+
 
 async function generatePassport(){
   let noTrails = (await (await fetch('/getTrailCount')).json()).data[0].Count;
   if (noTrails === undefined) return;
   let parentElement = document.getElementById('flipbook');
-  let newHtml = '';
+  let offset = 0;
   for (let trail = 1;trail <= noTrails;trail++){
+    let newHtml = '';
     let trailInfo = (await (await fetch('/trailInfo?trailID='+trail)).json()).data;
     if(trailInfo === undefined) continue;
     let trailName = (await (await fetch('/getTrail?trailID='+trail)).json()).data[0].Name;
@@ -65,11 +77,11 @@ async function generatePassport(){
       }
   newHtml += '<div class = "section'+section+'">\
       <div class = "sculpture" style = "float: '+pageFloat+'">\
-      <img class = "photo" id="image'+(count+1)+'" src="" style = "width: 100%; height: auto;">\
-      <input type="file" id="upload'+(count+1)+'Input" name="upload'+(count+1)+'File" style="display:none"/>\
-      <button class="upload" id="upload'+(count+1)+'"> Upload </button>\
+      <img class = "photo" id="image'+(count+offset+1)+'" src="" style = "width: 100%; height: auto;">\
+      <input type="file" id="upload'+(count+offset+1)+'Input" name="upload'+(count+offset+1)+'File" style="display:none"/>\
+      <button class="upload" id="upload'+(count+offset+1)+'"> Upload </button>\
       </div>\
-      <div class="sculptureText'+(count+1)+'" id="info'+(count+1)+'" style="float: '+textFloat+'">\
+      <div class="sculptureText'+(count+offset+1)+'" id="info'+(count+offset+1)+'" style="float: '+textFloat+'">\
       <h2>'+sculpt.Title+'</h2>\
       <p>'+sculpt.Description+'</p>\
       </div>\
@@ -83,10 +95,11 @@ async function generatePassport(){
         newHtml += '</div>'
     }
     if(count%4 == 0 || count%4 == 3){
-      newHtml += '<div class = "page fade right"></div>'
+      newHtml += '<div class = "page fade right" id="trail'+trail+'name"><h1>'+trailName+'</h1></div>'
     }
+    parentElement.innerHTML += newHtml;
+    offset += trailInfo.length;
   }
-  parentElement.innerHTML += newHtml;
 }
 
 async function getCoords(){

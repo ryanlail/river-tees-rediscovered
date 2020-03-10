@@ -4,10 +4,10 @@
 
 class PassportEntry {
 
-    constructor(sculptureID, sculptureImage, uploadButton, textArea) {
+    constructor(sculptureID, textArea) {
         this._sculptureID = sculptureID;
-        this._sculptureImage = sculptureImage;
-        this._uploadButton = uploadButton;
+        this._sculptureImage = new SculptureImage("", document.getElementById('image'+sculptureID), '/user/getPhoto');
+        this._uploadButton = new UploadButton();
         this._textArea = textArea;
     }
 
