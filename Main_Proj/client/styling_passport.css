@@ -241,6 +241,7 @@ body, html {
   display: inline-block;
   border-top: 4px solid #0A243D ;
   word-wrap: break-word;
+  overflow: auto;
 }
 
 .sculpture {
