@@ -175,6 +175,7 @@ router.post('/user/addPhoto', upload.single('picture'), async function(req, res)
                         movFile = false;
                     }
                     if(movFile){
+                        fs.unlink(req.file.path);
                         let db = new DBHandler(keys.mysql.host, keys.mysql.user, keys.mysql.password, keys.mysql.database);
                         let resp  = await db.connect();
                         if (resp){
