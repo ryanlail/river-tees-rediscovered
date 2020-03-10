@@ -31,20 +31,42 @@ async function generatePassport(){
   let parentElement = document.getElementById('flipbook');
   for (let trail = 1;trail <= noTrails;i++){
     let trailInfo = (await (await fetch('/trailInfo?trailID='+trail)).json()).data;
-    if(trailInfo === undefined) return;
+    if(trailInfo === undefined) continue;
     let trailName = (await (await fetch('/getTrail?trailID='+trail)).json()).data;
+    if(trailName === undefined) continue;
     parentElement.innerHTML += '<div class = "page fade left" id = "trail'+trail+'name">\
                                  <h1>'+trailName+'</h1>\
                                  <div id="iframe-map'+trail+'"></div>\
                                  </div>';
+    let pageFade = '';
+    let pageFloat = '';
+    let section = 0;
+    let count = 0;
     for (const sculpt of trailInfo) {
+      if(count%4 > 1) {
+        pageFade = 'left';
+      }else {
+        pageFade = 'right';
+      }
+      if(count%2 == 0) {
+        pageFloat = 'left';
+        section = 1;
+      } else{
+        pageFloat = 'right';
+        section = 2;
+        parentElement.innerHTML += '<div class = "page fade '+pageFade+'" id = "trail'+trail+'name">\
+        <h1>'+trailName+'</h1>'; //talk to phillip about link here
+      }
+  parentElement.innerHTML += '<div class = "section'+section+'">\
+      <div class = "sculpture" style = "float: '+pageFloat+'">\
+      <img class = "photo" id="image'+(count+1)+'" src="" style = "width: 100%; height: auto;">\
+      <input type="file" id="upload'+(count+1)+'Input" name="upload'+(count+1)+'File" style="display:none"/>\
+      <button class="upload" id="upload'+(count+1)+'"> Upload </button>\</div>'
+
+
 
 
     }
-
-
-
-
   }
 }
 
