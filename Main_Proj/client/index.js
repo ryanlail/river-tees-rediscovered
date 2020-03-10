@@ -12,7 +12,7 @@ function postImage() {
     alert("flag")
 }
 
-function initUi(){
+async function initUi(){
   //let image1 = new SculptureImage("", document.getElementById('image1'), '/user/getPhoto');
   //let upload1 = new UploadButton();
   //let pEntry1 = new PassportEntry(1, image1, upload1, null);
@@ -23,7 +23,7 @@ function initUi(){
   // image2.refreshDatabase(currentUser.getAuthResponse().id_token, 2);
   // let upload2 = new UploadButton();
   // upload2.init(document.getElementById('upload2'), document.getElementById('upload2Input'), image2, 2, '/user/addPhoto');
-  generatePassport();
+  await generatePassport();
   getCoords();
 }
 
@@ -31,12 +31,13 @@ async function generatePassport(){
   let noTrails = (await (await fetch('/getTrailCount')).json()).data[0].Count;
   if (noTrails === undefined) return;
   let parentElement = document.getElementById('flipbook');
-  for (let trail = 1;trail <= noTrails;i++){
+  let newHtml = '';
+  for (let trail = 1;trail <= noTrails;trail++){
     let trailInfo = (await (await fetch('/trailInfo?trailID='+trail)).json()).data;
     if(trailInfo === undefined) continue;
-    let trailName = (await (await fetch('/getTrail?trailID='+trail)).json()).data;
+    let trailName = (await (await fetch('/getTrail?trailID='+trail)).json()).data[0].Name;
     if(trailName === undefined) continue;
-    parentElement.innerHTML += '<div class = "page fade left" id = "trail'+trail+'name">\
+    newHtml += '<div class = "page fade left" id = "trail'+trail+'name">\
                                  <h1>'+trailName+'</h1>\
                                  <div id="iframe-map'+trail+'"></div>\
                                  </div>';
@@ -54,34 +55,38 @@ async function generatePassport(){
       if(count%2 == 0) {
         pageFloat = 'left';
         textFloat = 'right';
+        newHtml += '<div class = "page fade '+pageFade+'" id = "trail'+trail+'name">\
+        <h1>'+trailName+'</h1>'; //talk to phillip about link here
         section = 1;
       } else{
         pageFloat = 'right';
         textFloat = 'left';
         section = 2;
-        parentElement.innerHTML += '<div class = "page fade '+pageFade+'" id = "trail'+trail+'name">\
-        <h1>'+trailName+'</h1>'; //talk to phillip about link here
       }
-  parentElement.innerHTML += '<div class = "section'+section+'">\
+  newHtml += '<div class = "section'+section+'">\
       <div class = "sculpture" style = "float: '+pageFloat+'">\
       <img class = "photo" id="image'+(count+1)+'" src="" style = "width: 100%; height: auto;">\
       <input type="file" id="upload'+(count+1)+'Input" name="upload'+(count+1)+'File" style="display:none"/>\
       <button class="upload" id="upload'+(count+1)+'"> Upload </button>\
       </div>\
-      <div class="sculptureText'+(count+1)+'" id="info'+(count+1)+'" style="float: '+textFloat+';">\
+      <div class="sculptureText'+(count+1)+'" id="info'+(count+1)+'" style="float: '+textFloat+'">\
       <h2>'+sculpt.Title+'</h2>\
       <p>'+sculpt.Description+'</p>\
       </div>\
       </div>';
       count++;
       if(count%2 == 0){
-        parentElement.innerHTML += '</div>'
+        newHtml += '</div>'
       }
     }
     if(count%2 != 0){
-        parentElement.innerHTML += '</div>'
+        newHtml += '</div>'
+    }
+    if(count%4 == 0 || count%4 == 3){
+      newHtml += '<div class = "page fade right"></div>'
     }
   }
+  parentElement.innerHTML += newHtml;
 }
 
 async function getCoords(){
@@ -90,9 +95,6 @@ async function getCoords(){
   let noTrailsJson = await noTrailsResponse.json();
   let noTrails = noTrailsJson.data[0].Count;
   for(let i=1; i<=noTrails; i++){
-  
-
-
     let response = await fetch('/getCoords?trailID='+i);
     let bodyJson = await response.json();
     let body = bodyJson.data;
