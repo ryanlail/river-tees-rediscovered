@@ -72,18 +72,23 @@ router.get('/getSculptureCSV', async function(req, res){
                 }
             });
             for (let i = 0; i < resp.length; i ++) {
-            fs.appendFile('tmp/Sculptures.csv', resp[i].Title + ', ' + resp[i].Description + ', ' + resp[i].LatitudeLongitude + '\n', function(err){
-                if(err) {
-                    return console.log(err);
-                }
-            });
-                console.log(resp[i].Title);
-                console.log(resp[i].Description);
-                console.log(resp[i].LatitudeLongitude);
+                fs.appendFile('tmp/Sculptures.csv', resp[i].Title + ', ' + resp[i].Description + ', ' + resp[i].LatitudeLongitude + '\n', function(err){
+                    if(err) {
+                        return console.log(err);
+                    }
+                });
             }
+            res.sendFile(process.cwd()+'/tmp/Sculptures.csv');
+            return;
+        } else {
+            res.status(500)
+            body = 'Could not complete query';
         }
+        db.disconnect();
+    } else {
+        res.status(500);
+        body = 'Could not connect to database';
     }
-
 })
 
 // Function gets sculpture info based off given id
