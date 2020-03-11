@@ -66,19 +66,19 @@ router.get('/getSculptureCSV', async function(req, res){
         sql = mysql.format(sql);
         resp = await db.query(sql);
         if (resp.length != 0 && resp[0].Title && resp[0].Description && resp[0].LatitudeLongitude){
-            fs.writeFile('tmp/Sculptures.csv', 'name, description, Latitude-longitude information\n', function(err){
+            fs.writeFile('tmp/Sculptures.tsv', 'name\tdescription\tLatitude-longitude information\n', function(err){
                 if(err) {
                     return console.log(err);
                 }
             });
             for (let i = 0; i < resp.length; i ++) {
-                fs.appendFile('tmp/Sculptures.csv', resp[i].Title + ', ' + resp[i].Description + ', ' + resp[i].LatitudeLongitude + '\n', function(err){
+                fs.appendFile('tmp/Sculptures.tsv', resp[i].Title+ '\t' + resp[i].Description.replace( /[\r\n]+/gm, "" ) + '\t' + resp[i].LatitudeLongitude + '\n', function(err){
                     if(err) {
                         return console.log(err);
                     }
                 });
             }
-            res.sendFile(process.cwd()+'/tmp/Sculptures.csv');
+            res.sendFile(process.cwd()+'/tmp/Sculptures.tsv');
             return;
         } else {
             res.status(500)
