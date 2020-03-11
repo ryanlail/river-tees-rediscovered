@@ -169,7 +169,7 @@ router.post('/user/addPhoto', upload.single('picture'), async function(req, res)
                     try {
                         fs.mkdirSync('./photos/'+user['sub']+'/'+req.body.sculptureID+'/', {recursive: true});
                         // call stamping function
-                        spawn('python', ['./stamp_image.py', req.file.filename, req.body.sculptureID, './photos/'+user['sub']+'/'+req.body.sculptureID+'/1']);
+                        spawn('python3', ['./stamp_image.py', req.file.filename, req.body.sculptureID, './photos/'+user['sub']+'/'+req.body.sculptureID+'/1']);
                         movFile = true;
                     } catch (err) {
                         movFile = false;
@@ -338,7 +338,7 @@ router.get('/trailInfo', async (req, res) =>{
     let db = new DBHandler(keys.mysql.host, keys.mysql.user, keys.mysql.password, keys.mysql.database);
     let resp  = await db.connect();
     if (resp){
-        let sql = 'SELECT Title, Description, Forename, Surname From Sculpture, Artist WHERE Sculpture.TrailID = ? AND Artist.ArtistID = Sculpture.ArtistID;'
+        let sql = 'SELECT SculptureID, Title, Description, Forename, Surname From Sculpture, Artist WHERE Sculpture.TrailID = ? AND Artist.ArtistID = Sculpture.ArtistID;'
         sql = mysql.format(sql, [trailID]);
         resp = await db.query(sql);
         if(resp){

@@ -240,6 +240,8 @@ body, html {
   height: 42%;
   display: inline-block;
   border-top: 4px solid #0A243D ;
+  word-wrap: break-word;
+  overflow: auto;
 }
 
 .sculpture {
@@ -270,23 +272,21 @@ body, html {
   -ms-transform: translate(-50%, -50%);
 }
 
-.sculptureText1, .sculptureText2 {
+div[class^="sculptureText"] {
   width: 55%;
   height: 100%;
   margin-top: 10px;
 }
 
-.sculptureText1 p, .sculptureText2 p {
+div[class^="sculptureText"] p{
   font-size: 14px;
   text-align: center;
 }
 
 .upload { 
-    position: absolute;
+    position: relative;
     top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
+    margin: 0 auto;
     background-color: #0A243D;
     font-family: "Raleway";
     color: white;
