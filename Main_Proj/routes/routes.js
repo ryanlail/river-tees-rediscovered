@@ -337,7 +337,7 @@ router.get('/trailInfo', async (req, res) =>{
     let db = new DBHandler(keys.mysql.host, keys.mysql.user, keys.mysql.password, keys.mysql.database);
     let resp  = await db.connect();
     if (resp){
-        let sql = 'SELECT Title, Description, Forename, Surname From Sculpture, Artist WHERE Sculpture.TrailID = ? AND Artist.ArtistID = Sculpture.ArtistID;'
+        let sql = 'SELECT SculptureID, Title, Description, Forename, Surname From Sculpture, Artist WHERE Sculpture.TrailID = ? AND Artist.ArtistID = Sculpture.ArtistID;'
         sql = mysql.format(sql, [trailID]);
         resp = await db.query(sql);
         if(resp){

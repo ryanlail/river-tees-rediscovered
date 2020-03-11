@@ -20,18 +20,16 @@ async function initUi(){
 
 
 async function addUIElements(){
-  let offset = 0;
   let noTrails = (await (await fetch('/getTrailCount')).json()).data[0].Count;
   if (noTrails === undefined) return;
   for (let trail = 1;trail<=noTrails; trail++){
-    let noSculpt = (await (await fetch('/getSculptCount?trailID='+trail)).json()).data[0].Count;
-    if (noSculpt === undefined) return;
-    for(let count = 0; count < noSculpt; count++){
-      let pEntry = new PassportEntry(count+offset+1, null);
-      pEntry.init(document.getElementById('upload'+(count+offset+1)), document.getElementById('upload'+(count+offset+1)+'Input'), '/user/addPhoto');
+    let trailInfo = (await (await fetch('/trailInfo?trailID='+trail)).json()).data;
+    if(trailInfo === undefined) continue;
+    for(const sculpt of trailInfo){
+      let pEntry = new PassportEntry(sculpt.SculptureID, null);
+      pEntry.init(document.getElementById('upload'+(sculpt.SculptureID)), document.getElementById('upload'+(sculpt.SculptureID)+'Input'), '/user/addPhoto');
       pEntry.refresh(currentUser.getAuthResponse().id_token);
     }
-    offset += noSculpt;
   }
 }
 
@@ -40,7 +38,6 @@ async function generatePassport(){
   let noTrails = (await (await fetch('/getTrailCount')).json()).data[0].Count;
   if (noTrails === undefined) return;
   let parentElement = document.getElementById('flipbook');
-  let offset = 0;
   let trailPages = [];
   let page = 2;
   for (let trail = 1;trail <= noTrails;trail++){
@@ -83,11 +80,11 @@ async function generatePassport(){
       }
   newHtml += '<div class = "section'+section+'">\
       <div class = "sculpture" style = "float: '+pageFloat+'">\
-      <img class = "photo" id="image'+(count+offset+1)+'" src="" style = "width: 100%; height: auto;">\
-      <input type="file" id="upload'+(count+offset+1)+'Input" name="upload'+(count+offset+1)+'File" style="display:none"/>\
-      <button class="upload" id="upload'+(count+offset+1)+'"> Upload </button>\
+      <img class = "photo" id="image'+(sculpt.SculptureID)+'" src="" style = "width: 100%; height: auto;">\
+      <input type="file" id="upload'+(sculpt.SculptureID)+'Input" name="upload'+(sculpt.SculptureID)+'File" style="display:none"/>\
+      <button class="upload" id="upload'+(sculpt.SculptureID)+'"> Upload </button>\
       </div>\
-      <div class="sculptureText'+(count+offset+1)+'" id="info'+(count+offset+1)+'" style="float: '+textFloat+'">\
+      <div class="sculptureText'+(sculpt.SculptureID)+'" id="info'+(sculpt.SculptureID)+'" style="float: '+textFloat+'">\
       <h2>'+sculpt.Title+'</h2>\
       <h3>'+sculpt.Forename+', '+sculpt.Surname+'</h3>\
       <p>'+sculpt.Description+'</p>\
@@ -106,7 +103,6 @@ async function generatePassport(){
       page++;
     }
     parentElement.innerHTML += newHtml;
-    offset += trailInfo.length;
     let headerHtml = '';
     if(trail == 1){
       headerHtml = trailName+'<a class="trailnext" onclick="currentPage('+page+')">&#10095;</a>';
