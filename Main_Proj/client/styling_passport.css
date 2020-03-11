@@ -286,9 +286,7 @@ div[class^="sculptureText"] p{
 .upload { 
     position: absolute;
     top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
+    left: 25%;
     background-color: #0A243D;
     font-family: "Raleway";
     color: white;
@@ -297,6 +295,7 @@ div[class^="sculptureText"] p{
     border: none;
     cursor: pointer;
     border-radius: 5px;
+    z-index: 9999;
 }
 
 .upload:hover {
