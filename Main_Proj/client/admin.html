@@ -5,8 +5,84 @@
         <title>
             Admin Page
         </title>
+        <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Amatic+SC|Raleway:100,200,300,400,500,600,700,800,900," rel="stylesheet">
+        <style>
+            body {
+                font-family: Raleway;
+            }
+
+            input[type=text], select {
+                font-size: 15px;
+                width: 50%;
+                padding: 12px 20px;
+                margin: 8px 0;
+                display: inline-block;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box;
+            }
+
+            input[type=submit] {
+                font-size: 15px;
+                width: 50%;
+                background-color: #4CAF50;
+                color: white;
+                padding: 14px 20px;
+                margin: 8px 0;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+
+            input[type=submit]:hover {
+                background-color: #45a049;
+            }
+
+            div {
+                border-radius: 10px;
+                background-color: #f2f2f2;
+                padding: 20px;
+            }
+
+        </style>
     </head>
     <body>
-        
+        <div id="adminForm">
+            <h2>Admin Page</h2>
+
+            <label for="addSculpture"><h4>Add sculpture:</h4></label>
+
+            <label for="trails">Select a trail:</label><br>
+            <select id="trails">
+                <div id="trailOptions">
+                    <option value="test">Testing the selector</option>
+                </div>
+            </select> <br><br>
+
+            <label for="walks">Select a walk:</label><br>
+            <select id="walks">
+                <div id="walkOptions">
+                    <option value="None">None</option>
+                </div>
+            </select> <br><br>
+
+            <form id="addSculpture" action="" method="POST">
+                <label for="sculptureName">Sculpture name:</label><br>
+                <input type="text" id="sculptureName" name="sculptureName" placeholder="Sculpture"><br><br>
+
+                <label for="artistName">Artist name:</label><br>
+                <input type="text" id="artistName" name="artistName" placeholder="Artist"><br><br>
+
+                <label for="sculptureCoords">Coordinates of sculpture:</label><br>
+                <input type="text" id="sculptureLong" name="sculptureCoords" placeholder="Longitude">
+                <input type="text" id="sculptureLat" name="sculptureCoords" placeholder="Latitude"><br><br>
+
+                <label for="sculptureDescription">Sculpture description:</label><br>
+                <input type="text" id="sculptureDescription" name="sculpturedescription" placeholder="Description" size=46><br><br>
+
+                <input type="submit" value="Submit">
+            </form>
+        </div>
     </body>
 </html>
