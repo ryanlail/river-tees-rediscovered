@@ -1,4 +1,4 @@
-'use strict';
+'use strict'; 
 
 let currentUser = undefined;
 
@@ -41,7 +41,7 @@ async function generatePassport(){
   let trailPages = [];
   let page = 2;
   for (let trail = 1;trail <= noTrails;trail++){
-    trailPages[trail-1] = page;
+    trailPages[trail-1] = page; 
     let newHtml = '';
     newHtml += '<a class = "Trail_'+trail+'" onclick="currentPage('+page+')">Trail '+trail+'</a>'
     document.getElementById('navbar').innerHTML += newHtml;
@@ -54,6 +54,7 @@ async function generatePassport(){
                                  <h1 class="trail'+trail+'Header"></h1>\
                                  <div id="iframe-map'+trail+'"></div>\
                                  </div>';
+
     page++;
     let pageFade = '';
     let pageFloat = '';
@@ -86,7 +87,7 @@ async function generatePassport(){
       </div>\
       <div class="sculptureText'+(sculpt.SculptureID)+'" id="info'+(sculpt.SculptureID)+'" style="float: '+textFloat+'">\
       <h2>'+sculpt.Title+'</h2>\
-      <h3>'+sculpt.Forename+', '+sculpt.Surname+'</h3>\
+      <h3>'+sculpt.Forename+' '+sculpt.Surname+'</h3>\
       <p>'+sculpt.Description+'</p>\
       </div>\
       </div>';
@@ -105,11 +106,11 @@ async function generatePassport(){
     parentElement.innerHTML += newHtml;
     let headerHtml = '';
     if(trail == 1){
-      headerHtml = trailName+'<a class="trailnext" onclick="currentPage('+page+')">&#10095;</a>';
+      headerHtml = trailName+' '+'<a class="trailnext" onclick="currentPage('+page+')">&#10095;</a>';
     }else if (trail == noTrails) {
-      headerHtml = '<a class="trailprev" onclick="currentPage('+trailPages[trail-2]+')">&#10094;</a>'+trailName;
+      headerHtml = '<a class="trailprev" onclick="currentPage('+trailPages[trail-2]+')"> &#10094;</a>'+' '+trailName;
     }else{
-      headerHtml = '<a class="trailprev" onclick="currentPage('+trailPages[trail-2]+')">&#10094;</a>'+trailName+'<a class="trailnext" onclick="currentPage('+page+')">&#10095;</a>';
+      headerHtml = '<a class="trailprev" onclick="currentPage('+trailPages[trail-2]+')">&#10094;</a>'+' '+trailName+' '+'<a class="trailnext" onclick="currentPage('+page+')">&#10095;</a>';
     }
     let elements = document.getElementsByClassName('trail'+trail+'Header');
     for(let i = 0;i<elements.length;i++){
@@ -119,7 +120,7 @@ async function generatePassport(){
 }
 
 async function getCoords(){
-
+  
   let noTrailsResponse = await fetch('/getTrailCount');
   let noTrailsJson = await noTrailsResponse.json();
   let noTrails = noTrailsJson.data[0].Count;
@@ -127,9 +128,8 @@ async function getCoords(){
     let response = await fetch('/getCoords?trailID='+i);
     let bodyJson = await response.json();
     let body = bodyJson.data;
-    console.log(body);
-    let mapHTML = '<iframe width="450" height="500" src="https://www.google.com/maps/d/u/2/embed?mid=1SNrHTWqSeCuKSpkuN2XsP4Ol4rUonUD1&z=12&ll=' + body + '"></iframe>';
-    document.getElementById("iframe-map" + i).innerHTML = mapHTML;
+    let mapHTML = '<iframe width="450" height="500" src="https://www.google.com/maps/d/u/0/embed?mid=1ls4d0fUqWY7Ux-VMLOftnxx-UTSEcRKx&z=12&ll=' + body[0]["StartCoordinate"] + '"></iframe>';
+    document.getElementById("iframe-map" + i).innerHTML = mapHTML; 
 
 
   }
@@ -187,14 +187,14 @@ function showPages(current, n) {
   var page_collection = document.getElementsByClassName("page");
   for (var pages=[], i=page_collection.length; i;) pages[--i] = page_collection[i];
 
-  if (n > pages.length) {pageIndex = 1}
+  if (n > pages.length) {pageIndex = 1} 
   if (n < 1) {pageIndex = pages.length}
   for (i = 0; i < pages.length; i++) {
-    pages[i].style.display = "none";
+    pages[i].style.display = "none"; 
   }
 
   // Screen resizing
-  if (document.getElementById("next").classList == "on") {
+  if (document.getElementById("next").classList == "on") { 
     if (pageIndex == 1) {
       pages[0].style.display = "inline-block";
     } else if (double.matches) {
@@ -206,7 +206,7 @@ function showPages(current, n) {
     }
     return;
   }
-
+  
   // Page switching
   if (double.matches) { // If there's a double page spread
     if (pageIndex % 2 == 0) {pageIndex += 1}
@@ -375,13 +375,13 @@ for (i = 0; i < acc.length; i++) {
       panel.style.maxHeight = null;
     } else {
       panel.style.maxHeight = panel.scrollHeight + "px";
-    }
+    } 
   });
 }
 
 //http://www.javascriptkit.com/javatutors/touchevents2.shtml
 function swipedetect(el, callback){
-
+  
     var touchsurface = el,
     swipedir,
     startX,
@@ -394,7 +394,7 @@ function swipedetect(el, callback){
     elapsedTime,
     startTime,
     handleswipe = callback || function(swipedir){}
-
+  
     touchsurface.addEventListener('touchstart', function(e){
         var touchobj = e.changedTouches[0]
         swipedir = 'none'
@@ -404,10 +404,10 @@ function swipedetect(el, callback){
         startY = touchobj.pageY
         startTime = new Date().getTime() // record time when finger first makes contact with surface
     }, false)
-
+  
     touchsurface.addEventListener('touchmove', function(e){
     }, false)
-
+  
     touchsurface.addEventListener('touchend', function(e){
         var touchobj = e.changedTouches[0]
         distX = touchobj.pageX - startX // get horizontal dist traveled by finger while in contact with surface
