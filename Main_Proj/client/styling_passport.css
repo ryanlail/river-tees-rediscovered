@@ -304,6 +304,21 @@ div[class^="sculptureText"] p{
     border-radius: 5px;
 }
 
+.download { 
+    text-decoration: none;
+    position: relative;
+    top: 12px;
+    margin: 0 auto;
+    background-color: #0A243D;
+    font-family: "Raleway";
+    color: white;
+    font-size: 12px;
+    padding: 12px 24px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
 .upload:hover {
     opacity: .8;
 }

@@ -53,6 +53,8 @@ async function generatePassport(){
     newHtml += '<div class = "page fade left" id = "trail'+trail+'name">\
                                  <h1 class="trail'+trail+'Header"></h1>\
                                  <div id="iframe-map'+trail+'"></div>\
+                                 <a class="download" href="/trailDocs/Trail'+trail+'SculptureTrail.pdf" target="_blank">Download Trail Information</a>  '+
+                                 '<a class="download" href="/trailDocs/Trail'+trail+'HeritageTrail.pdf" target="_blank">Download Heritage Information</a>\
                                  </div>';
 
     page++;
