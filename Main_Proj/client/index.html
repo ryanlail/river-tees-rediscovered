@@ -19,7 +19,6 @@
                 <div id="my-signin2" class="sign-in">
                     <script>
                         function onSuccess(googleUser) {
-                            console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
                             location.href = "http://localhost:8080/passport.html";
                         }
                         function onFailure(error) {
