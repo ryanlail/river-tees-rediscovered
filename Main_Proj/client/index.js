@@ -25,20 +25,18 @@ function initUi(){
   upload2.init(document.getElementById('upload2'), document.getElementById('upload2Input'), image2, 2, '/user/addPhoto');
 
   if(currentUser.getId() == "105995314723247311873"){
-    admin();
+    document.getElementById('admin-button').innerHTML = '<button class="admin" href="#" onclick="adminPage();">Admin</button>';
   }
 
   getCoords();
 }
 
 async function admin(){
-  document.getElementById('admin-button').innerHTML = '<button class="admin" href="#" onclick="adminPage();">Admin</button>';
   let api = true;
-
-  
   let noTrailsResponse = await fetch('/getTrailCount');
   let noTrailsJson = await noTrailsResponse.json();
   let noTrails = noTrailsJson.data[0].Count;
+  let trailOptions = [noTrails];
 
   for(let i=1; i<=noTrails; i++){
 
@@ -49,12 +47,17 @@ async function admin(){
     if(success.ok) {
         let body = await success.json();
         let trailName = body["data"][0]["Name"];
-        console.log("Trail = " + trailName);
-        // document.getElementById('trailOptions').innerHTML += '<option value="trail' + i + '">' + trailName + '</option>';
+        trailOptions.push(["trail" + i, trailName]);
     }
-
+  
   }
+
+  return trailOptions;
 }
+
+// async function newSculpture(){
+
+// }
 
 async function getCoords(){
   
@@ -62,17 +65,17 @@ async function getCoords(){
   let noTrailsJson = await noTrailsResponse.json();
   let noTrails = noTrailsJson.data[0].Count;
   
-  for(let i=1; i<=noTrails; i++){
+  // for(let i=1; i<=noTrails; i++){
   
 
-    let response = await fetch('/getCoords?trailID='+i);
-    let bodyJson = await response.json();
-    let body = bodyJson.data;
-    let mapHTML = '<iframe width="450" height="500" src="https://www.google.com/maps/d/u/0/embed?mid=1ls4d0fUqWY7Ux-VMLOftnxx-UTSEcRKx&z=12&ll=' + body[0]["StartCoordinate"] + '"></iframe>';
-    document.getElementById("iframe-map" + i).innerHTML = mapHTML; 
+  //   let response = await fetch('/getCoords?trailID='+i);
+  //   let bodyJson = await response.json();
+  //   let body = bodyJson.data;
+  //   let mapHTML = '<iframe width="450" height="500" src="https://www.google.com/maps/d/u/0/embed?mid=1ls4d0fUqWY7Ux-VMLOftnxx-UTSEcRKx&z=12&ll=' + body[0]["StartCoordinate"] + '"></iframe>';
+  //   document.getElementById("iframe-map" + i).innerHTML = mapHTML; 
 
 
-  }
+  // }
 }
 /////////////////////////
 

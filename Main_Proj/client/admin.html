@@ -1,9 +1,24 @@
 <!DOCTYPE html>
 <html lang="en-gb">
 <html>
-    <head>
 
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+        window.onload = function(){
+            let getVals = admin();
+            getVals.then(function(result){
+                existingTrails = result;
+                console.log(existingTrails);
+                optionHTML = '<select id="trails">';
+                for(let i=1; i<=existingTrails[0]; i++){
+                    optionHTML += '<option value="' + existingTrails[i][1] + '">' + existingTrails[i][1] + '</option>';
+                }
+                optionHTML += '</select>';
+                document.getElementById('trailOptions').innerHTML = optionHTML;
+            })
+        }
+    </script>
+
+    <head>
 
         <title>
             Admin Page
@@ -58,12 +73,10 @@
             <h2>Admin Page</h2>
 
             <label for="addSculpture"><h4>Add sculpture:</h4></label>
-
-            <label for="trails">Select a trail:</label><br>
-            <select id="trails">
-                <div id="trailOptions"></div>
-            </select> <br><br>
-
+            <label for="trails">Select a trail:</label>
+            <div id="trailOptions">
+            </div>
+    
             <form id="addSculpture" action="" method="POST">
 
                 <label for="sculptureName">Sculpture name:</label><br>
@@ -80,7 +93,11 @@
                 <input type="text" id="sculptureDescription" name="sculpturedescription" placeholder="Description" size=100><br><br>
 
                 <input type="submit" value="Submit"><br>
+                
             </form>
+
         </div>
+
+        <script src = "index.js"></script>
     </body>
 </html>
