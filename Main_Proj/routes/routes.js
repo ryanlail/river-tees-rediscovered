@@ -58,7 +58,7 @@ router.post('/user/getPhotos', async function(req, res) {
 });
 
 // Function gets csv file for the sculpture information to pass to admin page
-router.get('/getSculptureCSV', async function(req, res){
+router.get('/getSculptures.tsv', async function(req, res){
     let db = new DBHandler(keys.mysql.host, keys.mysql.user, keys.mysql.password, keys.mysql.database);
     let resp  = await db.connect();
     if (resp){
