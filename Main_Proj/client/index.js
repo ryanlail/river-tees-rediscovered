@@ -1,7 +1,6 @@
 'use strict'; 
 
 let currentUser = undefined;
-let pEntries = [];
 
 async function onSignIn (googleUser) {
   currentUser = googleUser;
@@ -31,7 +30,6 @@ async function addUIElements(){
       let pEntry = new PassportEntry(count+offset+1, null);
       pEntry.init(document.getElementById('upload'+(count+offset+1)), document.getElementById('upload'+(count+offset+1)+'Input'), '/user/addPhoto');
       pEntry.refresh(currentUser.getAuthResponse().id_token);
-      pEntries.push(pEntry);
     }
     offset += noSculpt;
   }
@@ -43,16 +41,23 @@ async function generatePassport(){
   if (noTrails === undefined) return;
   let parentElement = document.getElementById('flipbook');
   let offset = 0;
+  let trailPages = [];
+  let page = 2;
   for (let trail = 1;trail <= noTrails;trail++){
+    trailPages[trail-1] = page; 
     let newHtml = '';
+    newHtml += '<a class = "Trail_'+trail+'" onclick="currentPage('+page+')">Trail '+trail+'</a>'
+    document.getElementById('navbar').innerHTML += newHtml;
+    newHtml = '';
     let trailInfo = (await (await fetch('/trailInfo?trailID='+trail)).json()).data;
     if(trailInfo === undefined) continue;
     let trailName = (await (await fetch('/getTrail?trailID='+trail)).json()).data[0].Name;
     if(trailName === undefined) continue;
     newHtml += '<div class = "page fade left" id = "trail'+trail+'name">\
-                                 <h1>'+trailName+'</h1>\
+                                 <h1 class="trail'+trail+'Header"></h1>\
                                  <div id="iframe-map'+trail+'"></div>\
                                  </div>';
+    page++;
     let pageFade = '';
     let pageFloat = '';
     let textFloat = '';
@@ -68,7 +73,8 @@ async function generatePassport(){
         pageFloat = 'left';
         textFloat = 'right';
         newHtml += '<div class = "page fade '+pageFade+'" id = "trail'+trail+'name">\
-        <h1>'+trailName+'</h1>'; //talk to phillip about link here
+        <h1 class="trail'+trail+'Header"></h1>';
+        page++;
         section = 1;
       } else{
         pageFloat = 'right';
@@ -83,6 +89,7 @@ async function generatePassport(){
       </div>\
       <div class="sculptureText'+(count+offset+1)+'" id="info'+(count+offset+1)+'" style="float: '+textFloat+'">\
       <h2>'+sculpt.Title+'</h2>\
+      <h3>'+sculpt.Forename+', '+sculpt.Surname+'</h3>\
       <p>'+sculpt.Description+'</p>\
       </div>\
       </div>';
@@ -96,9 +103,22 @@ async function generatePassport(){
     }
     if(count%4 == 0 || count%4 == 3){
       newHtml += '<div class = "page fade right" id="trail'+trail+'name"><h1>'+trailName+'</h1></div>'
+      page++;
     }
     parentElement.innerHTML += newHtml;
     offset += trailInfo.length;
+    let headerHtml = '';
+    if(trail == 1){
+      headerHtml = trailName+'<a class="trailnext" onclick="currentPage('+page+')">&#10095;</a>';
+    }else if (trail == noTrails) {
+      headerHtml = '<a class="trailprev" onclick="currentPage('+trailPages[trail-2]+')">&#10094;</a>'+trailName;
+    }else{
+      headerHtml = '<a class="trailprev" onclick="currentPage('+trailPages[trail-2]+')">&#10094;</a>'+trailName+'<a class="trailnext" onclick="currentPage('+page+')">&#10095;</a>';
+    }
+    let elements = document.getElementsByClassName('trail'+trail+'Header');
+    for(let i = 0;i<elements.length;i++){
+      elements[i].innerHTML += headerHtml;
+    }
   }
 }
 
