@@ -66,20 +66,18 @@ router.get('/getSculptureCSV', async function(req, res){
         sql = mysql.format(sql);
         resp = await db.query(sql);
         if (resp.length != 0 && resp[0].Title && resp[0].Description && resp[0].LatitudeLongitude){
-            fs.writeFile('tmp/Sculptures.tsv', 'name\tdescription\tLatitude-longitude information\n', function(err){
-                if(err) {
-                    return console.log(err);
+            try {
+                fs.writeFileSync('tmp/Sculptures.tsv', 'name\tdescription\tLatitude-longitude information\n');
+                for (let i = 0; i < resp.length; i ++) {
+                    fs.appendFileSync('tmp/Sculptures.tsv', resp[i].Title+ '\t' + resp[i].Description.replace( /[\r\n]+/gm, "" ) + '\t' + resp[i].LatitudeLongitude + '\n')
                 }
-            });
-            for (let i = 0; i < resp.length; i ++) {
-                fs.appendFile('tmp/Sculptures.tsv', resp[i].Title+ '\t' + resp[i].Description.replace( /[\r\n]+/gm, "" ) + '\t' + resp[i].LatitudeLongitude + '\n', function(err){
-                    if(err) {
-                        return console.log(err);
-                    }
-                });
+                res.sendFile(process.cwd()+'/tmp/Sculptures.tsv');
+                return;
             }
-            res.sendFile(process.cwd()+'/tmp/Sculptures.tsv');
-            return;
+            catch(err) {
+                res.status(500);
+                body = 'Server error'
+            }
         } else {
             res.status(500)
             body = 'Could not complete query';
@@ -203,7 +201,7 @@ router.post('/user/addPhoto', upload.single('picture'), async function(req, res)
                     try {
                         fs.mkdirSync('./photos/'+user['sub']+'/'+req.body.sculptureID+'/', {recursive: true});
                         // call stamping function
-                        spawn('python3', ['./stamp_image.py', req.file.filename, req.body.sculptureID, './photos/'+user['sub']+'/'+req.body.sculptureID+'/1']);
+                        spawn('python', ['./stamp_image.py', req.file.filename, req.body.sculptureID, './photos/'+user['sub']+'/'+req.body.sculptureID+'/1']);
                         movFile = true;
                     } catch (err) {
                         movFile = false;
