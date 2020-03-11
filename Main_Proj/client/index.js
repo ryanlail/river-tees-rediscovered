@@ -128,7 +128,7 @@ async function getCoords(){
     let response = await fetch('/getCoords?trailID='+i);
     let bodyJson = await response.json();
     let body = bodyJson.data;
-    let mapHTML = '<iframe width="450" height="500" src="https://www.google.com/maps/d/u/0/embed?mid=1ls4d0fUqWY7Ux-VMLOftnxx-UTSEcRKx&z=12&ll=' + body[0]["StartCoordinate"] + '"></iframe>';
+    let mapHTML = '<iframe width="450" height="500" src="https://www.google.com/maps/d/u/2/embed?mid=1SNrHTWqSeCuKSpkuN2XsP4Ol4rUonUD1&z=11&ll=' + body + '"></iframe>';
     document.getElementById("iframe-map" + i).innerHTML = mapHTML; 
 
 
