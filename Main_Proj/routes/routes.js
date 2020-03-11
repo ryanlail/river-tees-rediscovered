@@ -57,6 +57,35 @@ router.post('/user/getPhotos', async function(req, res) {
     res.send({data: body});
 });
 
+// Function gets csv file for the sculpture information to pass to admin page
+router.get('/getSculptureCSV', async function(req, res){
+    let db = new DBHandler(keys.mysql.host, keys.mysql.user, keys.mysql.password, keys.mysql.database);
+    let resp  = await db.connect();
+    if (resp){
+        let sql = 'SELECT `Title`, `Description`, `LatitudeLongitude` FROM `Sculpture`';
+        sql = mysql.format(sql);
+        resp = await db.query(sql);
+        if (resp.length != 0 && resp[0].Title && resp[0].Description && resp[0].LatitudeLongitude){
+            fs.writeFile('tmp/Sculptures.csv', 'name, description, Latitude-longitude information\n', function(err){
+                if(err) {
+                    return console.log(err);
+                }
+            });
+            for (let i = 0; i < resp.length; i ++) {
+            fs.appendFile('tmp/Sculptures.csv', resp[i].Title + ', ' + resp[i].Description + ', ' + resp[i].LatitudeLongitude + '\n', function(err){
+                if(err) {
+                    return console.log(err);
+                }
+            });
+                console.log(resp[i].Title);
+                console.log(resp[i].Description);
+                console.log(resp[i].LatitudeLongitude);
+            }
+        }
+    }
+
+})
+
 // Function gets sculpture info based off given id
 router.get('/getSculpture', async function(req, res){
     res.type('json');
