@@ -2,9 +2,13 @@
 <html lang="en-gb">
 <html>
     <head>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
         <title>
             Admin Page
         </title>
+
         <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Amatic+SC|Raleway:100,200,300,400,500,600,700,800,900," rel="stylesheet">
         <style>
@@ -46,7 +50,9 @@
             }
 
         </style>
+
     </head>
+
     <body>
         <div id="adminForm">
             <h2>Admin Page</h2>
@@ -55,19 +61,11 @@
 
             <label for="trails">Select a trail:</label><br>
             <select id="trails">
-                <div id="trailOptions">
-                    <option value="test">Testing the selector</option>
-                </div>
-            </select> <br><br>
-
-            <label for="walks">Select a walk:</label><br>
-            <select id="walks">
-                <div id="walkOptions">
-                    <option value="None">None</option>
-                </div>
+                <div id="trailOptions"></div>
             </select> <br><br>
 
             <form id="addSculpture" action="" method="POST">
+
                 <label for="sculptureName">Sculpture name:</label><br>
                 <input type="text" id="sculptureName" name="sculptureName" placeholder="Sculpture"><br><br>
 
@@ -79,9 +77,9 @@
                 <input type="text" id="sculptureLat" name="sculptureCoords" placeholder="Latitude"><br><br>
 
                 <label for="sculptureDescription">Sculpture description:</label><br>
-                <input type="text" id="sculptureDescription" name="sculpturedescription" placeholder="Description" size=46><br><br>
+                <input type="text" id="sculptureDescription" name="sculpturedescription" placeholder="Description" size=100><br><br>
 
-                <input type="submit" value="Submit">
+                <input type="submit" value="Submit"><br>
             </form>
         </div>
     </body>

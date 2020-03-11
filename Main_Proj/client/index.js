@@ -4,6 +4,7 @@ let currentUser = undefined;
 
 async function onSignIn (googleUser) {
   currentUser = googleUser;
+
   initUi();
 }
 
@@ -22,7 +23,37 @@ function initUi(){
   image2.refreshDatabase(currentUser.getAuthResponse().id_token, 2);
   let upload2 = new UploadButton();
   upload2.init(document.getElementById('upload2'), document.getElementById('upload2Input'), image2, 2, '/user/addPhoto');
+
+  if(currentUser.getId() == "105995314723247311873"){
+    admin();
+  }
+
   getCoords();
+}
+
+async function admin(){
+  document.getElementById('admin-button').innerHTML = '<button class="admin" href="#" onclick="adminPage();">Admin</button>';
+  let api = true;
+
+  
+  let noTrailsResponse = await fetch('/getTrailCount');
+  let noTrailsJson = await noTrailsResponse.json();
+  let noTrails = noTrailsJson.data[0].Count;
+
+  for(let i=1; i<=noTrails; i++){
+
+    let success = await fetch('/getTrail?trailID='+i).catch(() => {
+      api = false;
+    });
+    if(!api)return;
+    if(success.ok) {
+        let body = await success.json();
+        let trailName = body["data"][0]["Name"];
+        console.log("Trail = " + trailName);
+        // document.getElementById('trailOptions').innerHTML += '<option value="trail' + i + '">' + trailName + '</option>';
+    }
+
+  }
 }
 
 async function getCoords(){
@@ -30,9 +61,9 @@ async function getCoords(){
   let noTrailsResponse = await fetch('/getTrailCount');
   let noTrailsJson = await noTrailsResponse.json();
   let noTrails = noTrailsJson.data[0].Count;
+  
   for(let i=1; i<=noTrails; i++){
   
-
 
     let response = await fetch('/getCoords?trailID='+i);
     let bodyJson = await response.json();
