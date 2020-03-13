@@ -33,7 +33,7 @@ def watermark_image(image_location, stamp_location, stamp_mask_location, file_na
         # write inverted image to file
 
         # Fits portrait images to the box shape; landscape images are left alone
-        if img.shape[0] > img.shape[1]:
+        if img.shape[0] > img.shape[1]*1.2:
             resized = cv2.resize(img, (1000, 1200), interpolation = cv2.INTER_AREA)
         else:
             resized = img
