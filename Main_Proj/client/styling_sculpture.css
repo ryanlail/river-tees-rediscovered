@@ -1,0 +1,31 @@
+* {box-sizing: border-box}
+
+body, html {
+  min-width: 500px;
+  height: 100%;
+  margin: 0;
+  background-color: #0A243D;
+}
+
+.heading {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url("background.jpg");
+  height: 75px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+.logo {
+    position: absolute;
+    width: 13em;
+    max-height: 100%;
+    padding: 12px;
+}
+
+.pp-container {
+    max-width: 100%;
+    height: 750.227px;
+    position: relative;
+    margin: auto;
+}
