@@ -23,9 +23,11 @@ body, html {
     padding: 12px;
 }
 
-.pp-container {
-    max-width: 100%;
-    height: 750.227px;
-    position: relative;
-    margin: auto;
+#mainBox {
+  background-color: #0A243D;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    filter: invert(1);
 }
