@@ -1,11 +1,18 @@
 'use strict'; 
 
 let currentUser = undefined;
+let pages = {}
+
 
 async function onSignIn (googleUser) {
   currentUser = googleUser;
-  initUi();
+  await initUi();
   showPages(pageIndex, pageIndex);
+  const url = new URL(document.location);
+  const sculptID = url.searchParams.get('sculptureID');
+  if(!isNaN(sculptID) && sculptID !== undefined && sculptID != null){
+    currentPage(pages[sculptID]);
+  }
 }
 
 function postImage() {
@@ -93,6 +100,7 @@ async function generatePassport(){
       <p>'+sculpt.Description+'</p>\
       </div>\
       </div>';
+      pages[''+sculpt.SculptureID+''] = page-1;
       count++;
       if(count%2 == 0){
         newHtml += '</div>'

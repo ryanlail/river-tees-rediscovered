@@ -20,7 +20,9 @@
                     <script>
                         function onSuccess(googleUser) {
                             console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
-                            location.href = "passport.html";
+                            const url = new URL(document.location);
+                            const sculptID = url.searchParams.get('sculptureID');
+                            location.href = "passport.html?sculptureID="+sculptID;
                         }
                         function onFailure(error) {
                             console.log(error);
