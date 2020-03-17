@@ -19,10 +19,13 @@
         <div class = "logo">
             <img src= "logo.png" style="width:100%">
         </div>
+        <div class="container float-right h-100 d-flex justify-content-end">
+            <button id="passButton" type="button" class="btn btn-info align-self-center">View in Passport</button>
+        </div>
     </div>
     <div class = "container-fluid h-100" id = "mainBox">
         <div class = "row">
-            <div class = "col-md-3 order-last order-md-first" id="pickMap">
+            <div class = "col-md-3 order-last order-md-first sticky-top" id="pickMap">
                 <div id="mapPickCarousel" class="carousel slide rounded-lg my-3" data-interval="false" data-ride="carousel">
                     <ol class="carousel-indicators mb-0">
                         <li data-target="#mapPickCarousel" data-slide-to="0" class="active"></li>
@@ -30,7 +33,7 @@
                     </ol>
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <div class="card rounded-lg bg-light mt-3">
+                            <div class="card rounded-lg bg-light">
                                 <img class="card-img-top" src="./background.jpg" alt="Image Depicting Sculpture">
                                 <div class="card-body">
                                     <h3 id="trail">Located on the Darlington Trail</h3>
@@ -44,30 +47,32 @@
                         </div>
                         <div class="carousel-item">
                             <div class="card rounded-lg bg-light">
-                    <iframe src="https://www.google.com/maps/d/u/2/embed?mid=1SNrHTWqSeCuKSpkuN2XsP4Ol4rUonUD1&z=11&ll=54.57829,-1.34829" width="100%" height="800"></iframe>
+                                <iframe src="https://www.google.com/maps/d/u/2/embed?mid=1SNrHTWqSeCuKSpkuN2XsP4Ol4rUonUD1&z=11&ll=54.57829,-1.34829" width="100%" height="800"></iframe>
                             </div>
                         </div>
-                        <a class="carousel-control-prev" href="#mapPickCarousel" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            
-                        </a>
-                        <a class="carousel-control-next" href="#mapPickCarousel" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
                     </div>
+                    <a class="carousel-control-prev" href="#mapPickCarousel" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        
+                    </a>
+                    <a class="carousel-control-next" href="#mapPickCarousel" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
                 </div>
             </div>
-            <div class = "col-md-9 order-first order-md-last">
-                <div class = "card rounded-lg bg-light mt-3 p-3" id="mainBlock">
-                    <h1 id="sculptTitle">The Statue of Liberty</h1>
-                    <h2 id="artistName">Some Dude</h2>
-                    <hr class="my-4">
-                    <p id="sculptText">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sollicitudin quam ac iaculis feugiat. Nulla pellentesque orci non aliquet fermentum. Aenean eu sem a nibh tincidunt pharetra. Maecenas nunc odio, maximus at rutrum in, cursus non turpis. Donec eget elit elit. Etiam nec lobortis metus, ut viverra magna. Donec in dolor ut nibh interdum cursus sit amet ut magna. Curabitur egestas vel arcu eget eleifend.
+            <div class = "col-md-9 order-first order-md-last mt-3 h-100 sticky-top">
+                <div class = "card rounded-lg bg-light p-3" id="mainBlock">
+                    <div class="card-body h-100">
+                        <h1 id="sculptTitle">The Statue of Liberty</h1>
+                        <h2 id="artistName">Some Dude</h2>
+                        <hr class="my-4">
+                        <p id="sculptText">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sollicitudin quam ac iaculis feugiat. Nulla pellentesque orci non aliquet fermentum. Aenean eu sem a nibh tincidunt pharetra. Maecenas nunc odio, maximus at rutrum in, cursus non turpis. Donec eget elit elit. Etiam nec lobortis metus, ut viverra magna. Donec in dolor ut nibh interdum cursus sit amet ut magna. Curabitur egestas vel arcu eget eleifend.
 
-                    Maecenas vestibulum velit congue, euismod ante ut, lacinia nisl. Donec varius rhoncus accumsan. Fusce id sapien posuere, scelerisque sapien nec, tristique nulla. Maecenas non semper purus. Maecenas mattis tellus non urna maximus, eget rhoncus eros rhoncus. Integer ac nibh lorem. Fusce luctus accumsan mi, a auctor neque congue vitae. Quisque vulputate lacinia nibh vel dapibus. Nunc mattis cursus mi, sit amet egestas nulla vehicula ut. Etiam convallis blandit turpis non aliquam. Sed tempus eros in lacus hendrerit, in tempor turpis tincidunt.
+                        Maecenas vestibulum velit congue, euismod ante ut, lacinia nisl. Donec varius rhoncus accumsan. Fusce id sapien posuere, scelerisque sapien nec, tristique nulla. Maecenas non semper purus. Maecenas mattis tellus non urna maximus, eget rhoncus eros rhoncus. Integer ac nibh lorem. Fusce luctus accumsan mi, a auctor neque congue vitae. Quisque vulputate lacinia nibh vel dapibus. Nunc mattis cursus mi, sit amet egestas nulla vehicula ut. Etiam convallis blandit turpis non aliquam. Sed tempus eros in lacus hendrerit, in tempor turpis tincidunt.
 
-                    Nulla interdum, nulla id consectetur cursus, nisi leo suscipit urna, sit amet porttitor tellus elit ac ipsum. Ut aliquam egestas egestas. Aliquam ultrices odio non erat finibus facilisis. Vivamus fermentum egestas auctor. Fusce tincidunt quam in massa euismod rhoncus. Pellentesque aliquet purus a velit luctus vehicula. Fusce quam velit, viverra at felis et, iaculis pulvinar nisi. Aliquam nec ex sapien. Suspendisse lacinia urna porttitor mi molestie pulvinar. Etiam sed nisi a velit tristique dapibus quis et magna. Vestibulum sit amet finibus nisi. Curabitur vitae velit dapibus, fermentum arcu vel, tincidunt mauris.</p>
+                        Nulla interdum, nulla id consectetur cursus, nisi leo suscipit urna, sit amet porttitor tellus elit ac ipsum. Ut aliquam egestas egestas. Aliquam ultrices odio non erat finibus facilisis. Vivamus fermentum egestas auctor. Fusce tincidunt quam in massa euismod rhoncus. Pellentesque aliquet purus a velit luctus vehicula. Fusce quam velit, viverra at felis et, iaculis pulvinar nisi. Aliquam nec ex sapien. Suspendisse lacinia urna porttitor mi molestie pulvinar. Etiam sed nisi a velit tristique dapibus quis et magna. Vestibulum sit amet finibus nisi. Curabitur vitae velit dapibus, fermentum arcu vel, tincidunt mauris.</p>
+                    </div>
                 </div>
             </div>
         </div>
