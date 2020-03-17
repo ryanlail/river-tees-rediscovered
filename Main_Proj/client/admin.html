@@ -7,16 +7,15 @@
             let getVals = admin();
             getVals.then(function(result){
                 existingTrails = result;
-                console.log(existingTrails);
-                optionHTML = '<select id="trails">';
+                optionHTML = '';
                 for(let i=1; i<=existingTrails[0]; i++){
                     optionHTML += '<option value="' + existingTrails[i][1] + '">' + existingTrails[i][1] + '</option>';
                 }
-                optionHTML += '</select>';
-                document.getElementById('trailOptions').innerHTML = optionHTML;
+                document.getElementById('pickATrail').innerHTML = optionHTML;
             })
         }
     </script>
+
 
     <head>
 
@@ -73,27 +72,28 @@
             <h2>Admin Page</h2>
 
             <label for="addSculpture"><h4>Add sculpture:</h4></label>
-            <label for="trails">Select a trail:</label>
-            <div id="trailOptions">
-            </div>
     
-            <form id="addSculpture" action="" method="POST">
+            <form id="addSculpture" action="/newSculpture" method="POST">
+
+                <label for="pickATrail">Select a trail:</label><br>
+                <select id="pickATrail" name="trailName"></select><br>
 
                 <label for="sculptureName">Sculpture name:</label><br>
                 <input type="text" id="sculptureName" name="sculptureName" placeholder="Sculpture"><br><br>
 
-                <label for="artistName">Artist name:</label><br>
-                <input type="text" id="artistName" name="artistName" placeholder="Artist"><br><br>
+                <label for="artistName">Artist's name:</label><br>
+                <input type="text" id="firstNamw" name="artistName" placeholder="Artist's first name">
+                <input type="text" id="lastName" name="artistName" placeholder="Artist's last name"><br><br>
 
                 <label for="sculptureCoords">Coordinates of sculpture:</label><br>
-                <input type="text" id="sculptureLong" name="sculptureCoords" placeholder="Longitude">
-                <input type="text" id="sculptureLat" name="sculptureCoords" placeholder="Latitude"><br><br>
+                <input type="text" id="sculptureLat" name="sculptureCoords" placeholder="Latitude">
+                <input type="text" id="sculptureLong" name="sculptureCoords" placeholder="Longitude"><br><br>
 
-                <label for="sculptureDescription">Sculpture description:</label><br>
-                <input type="text" id="sculptureDescription" name="sculpturedescription" placeholder="Description" size=100><br><br>
+                <label for="sculptureDesc">Sculpture description:</label><br>
+                <input type="text" id="sculptureDesc" name="sculptureDesc" placeholder="Description" size=100><br><br>
 
                 <input type="submit" value="Submit"><br>
-                
+
             </form>
 
         </div>

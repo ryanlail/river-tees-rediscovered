@@ -58,7 +58,7 @@ router.post('/user/getPhotos', async function(req, res) {
 });
 
 // Function gets csv file for the sculpture information to pass to admin page
-router.get('/getSculptureCSV', async function(req, res){
+router.get('/getSculptures.tsv', async function(req, res){
     let db = new DBHandler(keys.mysql.host, keys.mysql.user, keys.mysql.password, keys.mysql.database);
     let resp  = await db.connect();
     if (resp){
@@ -66,20 +66,18 @@ router.get('/getSculptureCSV', async function(req, res){
         sql = mysql.format(sql);
         resp = await db.query(sql);
         if (resp.length != 0 && resp[0].Title && resp[0].Description && resp[0].LatitudeLongitude){
-            fs.writeFile('tmp/Sculptures.csv', 'name, description, Latitude-longitude information\n', function(err){
-                if(err) {
-                    return console.log(err);
+            try {
+                fs.writeFileSync('tmp/Sculptures.tsv', 'name\tdescription\tLatitude-longitude information\n');
+                for (let i = 0; i < resp.length; i ++) {
+                    fs.appendFileSync('tmp/Sculptures.tsv', resp[i].Title+ '\t' + resp[i].Description.replace( /[\r\n]+/gm, "" ) + '\t' + resp[i].LatitudeLongitude + '\n')
                 }
-            });
-            for (let i = 0; i < resp.length; i ++) {
-                fs.appendFile('tmp/Sculptures.csv', resp[i].Title + ', ' + resp[i].Description + ', ' + resp[i].LatitudeLongitude + '\n', function(err){
-                    if(err) {
-                        return console.log(err);
-                    }
-                });
+                res.sendFile(process.cwd()+'/tmp/Sculptures.tsv');
+                return;
             }
-            res.sendFile(process.cwd()+'/tmp/Sculptures.csv');
-            return;
+            catch(err) {
+                res.status(500);
+                body = 'Server error'
+            }
         } else {
             res.status(500)
             body = 'Could not complete query';
@@ -203,7 +201,7 @@ router.post('/user/addPhoto', upload.single('picture'), async function(req, res)
                     try {
                         fs.mkdirSync('./photos/'+user['sub']+'/'+req.body.sculptureID+'/', {recursive: true});
                         // call stamping function
-                        spawn('python3', ['./stamp_image.py', req.file.filename, req.body.sculptureID, './photos/'+user['sub']+'/'+req.body.sculptureID+'/1']);
+                        spawn('python', ['./stamp_image.py', req.file.filename, req.body.sculptureID, './photos/'+user['sub']+'/'+req.body.sculptureID+'/1']);
                         movFile = true;
                     } catch (err) {
                         movFile = false;
@@ -360,6 +358,50 @@ router.get('/getSculptCount', async (req, res) => {
         res.status(500);
         body = 'Could not connect to database';
     }
+    res.send({data: body});
+});
+
+// path from admin page to upload new sculpture
+router.post('/newSculpture', async function(req, res) {
+    res.type('json');
+    let body = req.body;
+    let trailName = body['trailName'];
+    let sculptName = body['sculptureName'];
+    let artistForname = body['artistName'][0];
+    let artistSurname = body['artistName'][1];
+    let sculptLat = body['sculptureCoords'][0];
+    let sculptLong = body['sculptureCoords'][1];
+    let sculptDesc = body['sculptureDesc'];
+
+    let db = new DBHandler(keys.mysql.host, keys.mysql.user, keys.mysql.password, keys.mysql.database);
+    let resp  = await db.connect();
+    if (resp){
+        // write the sql to insert
+        let sql = 'SELECT `ArtistID` FROM `Artist` WHERE `Forename` = ? AND `Surname` = ?';
+        sql = mysql.format(sql, [artistForname, artistSurname]);
+        resp = await db.query(sql);
+        console.log(resp)
+        // let sql = 'INSERT INTO `Artist` SELECT (SELECT MAX(`ArtistID`) FROM `Artist`)+1, ?, ? WHERE NOT EXISTS (SELECT * FROM `Artist` WHERE `Forename` = ? AND `Surname` = ? )';
+        // sql = mysql.format(sql, [artistForname, artistSurname, artistForname, artistSurname]);
+        // resp = await db.query(sql);
+        if(resp){
+            res.status(200);
+            body = ['Success, inserted: ', body];
+        } else{
+            res.status(500);
+            body = 'Could not complete query';
+        }
+        // sql = 'INSERT INTO `Sculptures` SELECT (SELECT MAX(`SculptureID`) FROM `Sculptures`)+1, ?, ?, ?, ?, ? WHERE NOT EXISTS (SELECT * FROM `Sculptures` WHERE `Title` = ? )';
+        // sql = mysql.format(sql, [sculptName, sculptDesc, sculptLat + " " + sculptLong, artistSurname]);
+        db.disconnect();
+            
+    } else {
+        res.status(500);
+        body = 'Could not connect to database';
+    }
+
+    console.log(body);
+    res.status(200);
     res.send({data: body});
 });
 

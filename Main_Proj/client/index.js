@@ -55,10 +55,6 @@ async function admin(){
   return trailOptions;
 }
 
-// async function newSculpture(){
-
-// }
-
 async function getCoords(){
   
   let noTrailsResponse = await fetch('/getTrailCount');
