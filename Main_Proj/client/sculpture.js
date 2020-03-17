@@ -11,7 +11,6 @@ async function initArtist(artistID){
     let resp = await fetch('/getArtist?artistID='+artistID);
     if (!resp.ok) return;
     let artData = (await resp.json()).data;
-    if (artData === undefined) return;
     document.getElementById('artistName').innerHTML = artData[0].Forename + ' ' + artData[0].Surname;
   } catch(err) {
     return;
@@ -22,9 +21,8 @@ async function initArtist(artistID){
 async function initTrailInfo(trailID){
   try{
     let resp = await fetch('/getTrail?trailID='+trailID);
-    if (!res.ok) return;
+    if (!resp.ok) return;
     let trailData = (await resp.json()).data
-    if (trailData === undefined) return;
     document.getElementById('trail').innerHTML = 'Located on the ' + trailData[0].Name + ' trail';
   }catch (err){
     return;
