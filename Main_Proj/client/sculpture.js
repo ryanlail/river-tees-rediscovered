@@ -23,6 +23,11 @@ async function initTrailInfo(trailID){
 
 
 async function initMapInfo(trailID){
+  let coords = (await(await fetch('/getCoords?trailID='+trailID)).json().catch(() => {
+  return;
+})).data;
+  document.getElementById('map').setAttribute('src', 'https://www.google.com/maps/d/u/2/embed?mid=1SNrHTWqSeCuKSpkuN2XsP4Ol4rUonUD1&z=11&ll=' + coords);
+
 
 }
 
@@ -38,5 +43,7 @@ async function initDoc() {
   // add phto for sidebar
   initArtist(data[0].ArtistID);
   initTrailInfo(data[0].TrailID);
+  initMapInfo(data[0].TrailID);
+  document.getElementById('passButton').setAttribute('href', '/index.html?sculptureID='+sculptID);
 
 }
