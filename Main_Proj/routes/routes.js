@@ -376,14 +376,33 @@ router.post('/newSculpture', async function(req, res) {
     let db = new DBHandler(keys.mysql.host, keys.mysql.user, keys.mysql.password, keys.mysql.database);
     let resp  = await db.connect();
     if (resp){
-        // write the sql to insert
+
         let sql = 'SELECT `ArtistID` FROM `Artist` WHERE `Forename` = ? AND `Surname` = ?';
         sql = mysql.format(sql, [artistForname, artistSurname]);
         resp = await db.query(sql);
         console.log(resp)
-        // let sql = 'INSERT INTO `Artist` SELECT (SELECT MAX(`ArtistID`) FROM `Artist`)+1, ?, ? WHERE NOT EXISTS (SELECT * FROM `Artist` WHERE `Forename` = ? AND `Surname` = ? )';
-        // sql = mysql.format(sql, [artistForname, artistSurname, artistForname, artistSurname]);
-        // resp = await db.query(sql);
+        //if artistID returned
+        let idJson = resp.json();
+        let artistID = idJson.ArtistID;
+        let newArtist = false;
+        //else
+        let sql = 'SELECT MAX(`ArtistID`) AS Max FROM `Artist`';
+        resp = await db.query(sql);
+        console.log(resp)
+        let maxJson = resp.json();
+        let artistID = maxJson.Max;
+        let newArtist = true;
+
+        if(newArtist){
+            let sql = 'INSERT INTO `Artist` VALUES (?, ?, ?)';
+            sql = mysql.format(sql, [artistID, artistForname, artistSurname]);
+            resp = await db.query(sql);
+        }
+
+        let sql = 'INSERT INTO `Sculpture` SELECT (SELECT MAX(`SculptureID`) FROM `Sculpture`)+1, ?, ?, ?, ?, (SELECT `TrailID` FROM `Trail` WHERE `Name` = ?)';
+        sql = mysql.format(sql, [sculptName, sculptDesc, sculptLat + " " + sculptLong, artistID, trailName]);
+        resp = await db.query(sql);
+            
         if(resp){
             res.status(200);
             body = ['Success, inserted: ', body];
@@ -391,7 +410,7 @@ router.post('/newSculpture', async function(req, res) {
             res.status(500);
             body = 'Could not complete query';
         }
-        // sql = 'INSERT INTO `Sculptures` SELECT (SELECT MAX(`SculptureID`) FROM `Sculptures`)+1, ?, ?, ?, ?, ? WHERE NOT EXISTS (SELECT * FROM `Sculptures` WHERE `Title` = ? )';
+        // sql = 'INSERT INTO `Sculpture` SELECT (SELECT MAX(`SculptureID`) FROM `Sculpture`)+1, ?, ?, ?, ?, ? WHERE NOT EXISTS (SELECT * FROM `Sculpture` WHERE `Title` = ? )';
         // sql = mysql.format(sql, [sculptName, sculptDesc, sculptLat + " " + sculptLong, artistSurname]);
         db.disconnect();
             
