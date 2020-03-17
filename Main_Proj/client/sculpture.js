@@ -1,7 +1,7 @@
 'use strict';
 
 const url = new URL(document.location);
-const sculptID = url.searchParams.get('sculptID');
+const sculptID = url.searchParams.get('sculptureID');
 if(!isNaN(sculptID) && sculptID !== undefined && sculptID != null){
   initDoc().catch();
 }

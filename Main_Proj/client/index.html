@@ -21,8 +21,8 @@
                         function onSuccess(googleUser) {
                             console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
                             const url = new URL(document.location);
-                            const sculptID = url.searchParams.set('sculptID');
-                            location.href = "passport.html?sculptID="+sculptID;
+                            const sculptID = url.searchParams.get('sculptureID');
+                            location.href = "passport.html?sculptureID="+sculptID;
                         }
                         function onFailure(error) {
                             console.log(error);
