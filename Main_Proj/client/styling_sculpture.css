@@ -25,9 +25,61 @@ body, html {
 
 #mainBox {
   background-color: #0A243D;
+  text-align: center;
 }
 
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
     filter: invert(1);
+}
+
+.carousel-indicators li {
+    background-color: #A9A9A9;
+}
+
+.carousel-indicators .active {
+    background-color: #313335;
+}
+
+.download { 
+    text-decoration: none;
+    position: relative;
+    bottom: 13px;
+    background-color: #0A243D;
+    font-family: "Raleway";
+    color: white;
+    font-size: 12px;
+    padding: 12px 24px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+h1 {
+    font-family:'Raleway';
+    color: #0A243D;
+}
+
+h2 {
+    font-family:'Raleway';
+    color: #00CBD1;
+    letter-spacing: 1.5px;
+}
+
+h3 {
+  font-family: 'Montserrat';
+  font-size: 15px;
+  color: #8db4c5;
+}
+
+h4 {
+    color: white;
+    font-family: "Raleway";
+    font-weight: bold;
+}
+
+p {
+    font-family:'Averia Serif Libre';
+    text-align: left;
+    color: #0A243D;
 }
