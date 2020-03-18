@@ -72,6 +72,7 @@ router.get('/getSculptures.tsv', async function(req, res){
                     fs.appendFileSync('tmp/Sculptures.tsv', resp[i].Title+ '\t' + resp[i].Description.replace( /[\r\n]+/gm, "" ) + '\t' + resp[i].LatitudeLongitude + '\n')
                 }
                 res.sendFile(process.cwd()+'/tmp/Sculptures.tsv');
+                let body = 'Success';
                 return;
             }
             catch(err) {
@@ -80,12 +81,12 @@ router.get('/getSculptures.tsv', async function(req, res){
             }
         } else {
             res.status(500)
-            body = 'Could not complete query';
+            let body = 'Could not complete query';
         }
         db.disconnect();
     } else {
         res.status(500);
-        body = 'Could not connect to database';
+        let body = 'Could not connect to database';
     }
 })
 
@@ -362,16 +363,18 @@ router.get('/getSculptCount', async (req, res) => {
 });
 
 // path from admin page to upload new sculpture
-router.post('/newSculpture', async function(req, res) {
+router.post('/addSculpture', async function(req, res) {
     res.type('json');
     let body = req.body;
     let trailName = body['trailName'];
     let sculptName = body['sculptureName'];
     let artistForname = body['artistName'][0];
     let artistSurname = body['artistName'][1];
-    let sculptLat = body['sculptureCoords'][0];
-    let sculptLong = body['sculptureCoords'][1];
+    let sculptLatLong = body['sculptureCoords'][0] + " " + body['sculptureCoords'][1];
     let sculptDesc = body['sculptureDesc'];
+    let sculptID = -1;
+    let artistID = -1;
+    let trailID = -1;
 
     let db = new DBHandler(keys.mysql.host, keys.mysql.user, keys.mysql.password, keys.mysql.database);
     let resp  = await db.connect();
@@ -380,23 +383,38 @@ router.post('/newSculpture', async function(req, res) {
         let sql = 'SELECT `ArtistID` FROM `Artist` WHERE `Forename` = ? AND `Surname` = ?';
         sql = mysql.format(sql, [artistForname, artistSurname]);
         resp = await db.query(sql);
-        console.log(resp)
         if(resp.length != 0){
-            let artistID = resp[0].ArtistID;
+            artistID = resp[0].ArtistID;
         } else {
             sql = 'SELECT MAX(`ArtistID`) AS Max FROM `Artist`';
             resp = await db.query(sql);
-            console.log(resp)
-            let artistID = resp[0].Max + 1;
+            artistID = resp[0].Max + 1;
 
             sql = 'INSERT INTO `Artist` VALUES (?, ?, ?)';
             sql = mysql.format(sql, [artistID, artistForname, artistSurname]);
             resp = await db.query(sql);
         }
-
         if(resp){
-            sql = 'INSERT INTO `Sculpture` SELECT (SELECT MAX(`SculptureID`) FROM `Sculpture`)+1, ?, ?, ?, ?, (SELECT `TrailID` FROM `Trail` WHERE `Name` = ?)';
-            sql = mysql.format(sql, [sculptName, sculptDesc, sculptLat + " " + sculptLong, artistID, trailName]);
+            sql = 'SELECT MAX(`SculptureID`) AS Max FROM `Sculpture`';
+            resp = await db.query(sql);
+            sculptID = resp[0].Max + 1;
+        } else {
+            res.status(500);
+            body = 'Could not complete query';
+        } 
+        if(resp){
+            sql = 'SELECT `TrailID` AS tid, `Name` FROM `Trail` WHERE `Name` = ?';
+            sql = mysql.format(sql, [trailName]);
+            resp = await db.query(sql);
+            trailID = resp[0].tid;
+        } else {
+            res.status(500);
+            body = 'Could not complete query';
+        }
+        console.log("sculptID:", sculptID, "\nsculptName:", sculptName, "\nsculptDesc:", sculptDesc, "\nsculptLatLong", sculptLatLong, "\nartistID:", artistID, "\ntrailID:", trailID);
+        if(resp){
+            sql = "INSERT INTO `Sculpture` (`SculptureID`, `Title`, `Description`, `LatitudeLongitude`, `ArtistID`, `TrailID`) VALUES (?, ?, ?, ?, ?, ?);";
+            sql = mysql.format(sql, [sculptID, sculptName, sculptDesc, sculptLatLong, artistID, trailID]);
             resp = await db.query(sql);
 
             if(resp){
