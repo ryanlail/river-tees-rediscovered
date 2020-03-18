@@ -76,7 +76,7 @@ router.get('/getSculptures.tsv', async function(req, res){
             }
             catch(err) {
                 res.status(500);
-                body = 'Server error'
+                body = 'Server error';
             }
         } else {
             res.status(500)
@@ -375,43 +375,43 @@ router.post('/newSculpture', async function(req, res) {
 
     let db = new DBHandler(keys.mysql.host, keys.mysql.user, keys.mysql.password, keys.mysql.database);
     let resp  = await db.connect();
-    if (resp){
 
+    if (resp){
         let sql = 'SELECT `ArtistID` FROM `Artist` WHERE `Forename` = ? AND `Surname` = ?';
         sql = mysql.format(sql, [artistForname, artistSurname]);
         resp = await db.query(sql);
         console.log(resp)
-        //if artistID returned
-        let idJson = resp.json();
-        let artistID = idJson.ArtistID;
-        let newArtist = false;
-        //else
-        let sql = 'SELECT MAX(`ArtistID`) AS Max FROM `Artist`';
-        resp = await db.query(sql);
-        console.log(resp)
-        let maxJson = resp.json();
-        let artistID = maxJson.Max;
-        let newArtist = true;
+        if(resp.length != 0){
+            let artistID = resp[0].ArtistID;
+        } else {
+            sql = 'SELECT MAX(`ArtistID`) AS Max FROM `Artist`';
+            resp = await db.query(sql);
+            console.log(resp)
+            let artistID = resp[0].Max + 1;
 
-        if(newArtist){
-            let sql = 'INSERT INTO `Artist` VALUES (?, ?, ?)';
+            sql = 'INSERT INTO `Artist` VALUES (?, ?, ?)';
             sql = mysql.format(sql, [artistID, artistForname, artistSurname]);
             resp = await db.query(sql);
         }
 
-        let sql = 'INSERT INTO `Sculpture` SELECT (SELECT MAX(`SculptureID`) FROM `Sculpture`)+1, ?, ?, ?, ?, (SELECT `TrailID` FROM `Trail` WHERE `Name` = ?)';
-        sql = mysql.format(sql, [sculptName, sculptDesc, sculptLat + " " + sculptLong, artistID, trailName]);
-        resp = await db.query(sql);
-            
         if(resp){
-            res.status(200);
-            body = ['Success, inserted: ', body];
-        } else{
+            sql = 'INSERT INTO `Sculpture` SELECT (SELECT MAX(`SculptureID`) FROM `Sculpture`)+1, ?, ?, ?, ?, (SELECT `TrailID` FROM `Trail` WHERE `Name` = ?)';
+            sql = mysql.format(sql, [sculptName, sculptDesc, sculptLat + " " + sculptLong, artistID, trailName]);
+            resp = await db.query(sql);
+
+            if(resp){
+                res.status(200);
+                body = 'Success';
+            } else {
+                res.status(500);
+                body = 'Could not complete query';
+            }
+        
+        } else {
             res.status(500);
             body = 'Could not complete query';
         }
-        // sql = 'INSERT INTO `Sculpture` SELECT (SELECT MAX(`SculptureID`) FROM `Sculpture`)+1, ?, ?, ?, ?, ? WHERE NOT EXISTS (SELECT * FROM `Sculpture` WHERE `Title` = ? )';
-        // sql = mysql.format(sql, [sculptName, sculptDesc, sculptLat + " " + sculptLong, artistSurname]);
+        
         db.disconnect();
             
     } else {
