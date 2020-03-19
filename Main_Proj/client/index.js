@@ -1,36 +1,138 @@
 'use strict'; 
 
 let currentUser = undefined;
+let pages = {}
+
 
 async function onSignIn (googleUser) {
   currentUser = googleUser;
-
-  initUi();
+  await initUi();
+  showPages(pageIndex, pageIndex);
+  const url = new URL(document.location);
+  const sculptID = url.searchParams.get('sculptureID');
+  if(!isNaN(sculptID) && sculptID !== undefined && sculptID != null){
+    currentPage(pages[sculptID]);
+  }
 }
 
 function postImage() {
     alert("flag")
 }
 
-function initUi(){
-  let image1 = new SculptureImage("", document.getElementById('image1'), '/user/getPhoto');
-  let upload1 = new UploadButton();
-  let pEntry1 = new PassportEntry(1, image1, upload1, null);
-  pEntry1.init(document.getElementById('upload1'), document.getElementById('upload1Input'), '/user/addPhoto');
-  pEntry1.refresh(currentUser.getAuthResponse().id_token);
-  pEntry1.ref
-  let image2 = new SculptureImage("", document.getElementById('image2'), '/user/getPhoto');
-  image2.refreshDatabase(currentUser.getAuthResponse().id_token, 2);
-  let upload2 = new UploadButton();
-  upload2.init(document.getElementById('upload2'), document.getElementById('upload2Input'), image2, 2, '/user/addPhoto');
-
+async function initUi(){
+  await generatePassport();
+  getCoords();
+  addUIElements();
   if(currentUser.getId() == "105995314723247311873"){
     document.getElementById('admin-button').innerHTML = '<button class="admin" href="#" onclick="adminPage();">Admin</button>';
   }
-
-  getCoords();
 }
 
+
+async function addUIElements(){
+  let noTrails = (await (await fetch('/getTrailCount')).json()).data[0].Count;
+  if (noTrails === undefined) return;
+  for (let trail = 1;trail<=noTrails; trail++){
+    let trailInfo = (await (await fetch('/trailInfo?trailID='+trail)).json()).data;
+    if(trailInfo === undefined) continue;
+    for(const sculpt of trailInfo){
+      let pEntry = new PassportEntry(sculpt.SculptureID, null);
+      pEntry.init(document.getElementById('upload'+(sculpt.SculptureID)), document.getElementById('upload'+(sculpt.SculptureID)+'Input'), '/user/addPhoto');
+      pEntry.refresh(currentUser.getAuthResponse().id_token);
+    }
+  }
+}
+
+
+async function generatePassport(){
+  let noTrails = (await (await fetch('/getTrailCount')).json()).data[0].Count;
+  if (noTrails === undefined) return;
+  let parentElement = document.getElementById('flipbook');
+  let trailPages = [];
+  let page = 2;
+  for (let trail = 1;trail <= noTrails;trail++){
+    trailPages[trail-1] = page; 
+    let newHtml = '';
+    newHtml += '<a class = "Trail_'+trail+'" onclick="currentPage('+page+')">Trail '+trail+'</a>'
+    document.getElementById('navbar').innerHTML += newHtml;
+    newHtml = '';
+    let trailInfo = (await (await fetch('/trailInfo?trailID='+trail)).json()).data;
+    if(trailInfo === undefined) continue;
+    let trailName = (await (await fetch('/getTrail?trailID='+trail)).json()).data[0].Name;
+    if(trailName === undefined) continue;
+    newHtml += '<div class = "page fade left" id = "trail'+trail+'name">\
+                                 <h1 class="trail'+trail+'Header"></h1>\
+                                 <div id="iframe-map'+trail+'"></div>\
+                                 <a class="download" href="/trailDocs/Trail'+trail+'SculptureTrail.pdf" target="_blank">Download Trail Information</a>  '+
+                                 '<a class="download" href="/trailDocs/Trail'+trail+'HeritageTrail.pdf" target="_blank">Download Heritage Information</a>\
+                                 </div>';
+
+    page++;
+    let pageFade = '';
+    let pageFloat = '';
+    let textFloat = '';
+    let section = 0;
+    let count = 0;
+    for (const sculpt of trailInfo) {
+      if(count%4 > 1) {
+        pageFade = 'left';
+      }else {
+        pageFade = 'right';
+      }
+      if(count%2 == 0) {
+        pageFloat = 'left';
+        textFloat = 'right';
+        newHtml += '<div class = "page fade '+pageFade+'" id = "trail'+trail+'name">\
+        <h1 class="trail'+trail+'Header"></h1>';
+        page++;
+        section = 1;
+      } else{
+        pageFloat = 'right';
+        textFloat = 'left';
+        section = 2;
+      }
+  newHtml += '<div class = "section'+section+'">\
+      <div class = "sculpture" style = "float: '+pageFloat+'">\
+      <img class = "photo" id="image'+(sculpt.SculptureID)+'" src="" style = "width: 100%; height: auto;">\
+      <input type="file" id="upload'+(sculpt.SculptureID)+'Input" name="upload'+(sculpt.SculptureID)+'File" style="display:none"/>\
+      <button class="upload" id="upload'+(sculpt.SculptureID)+'"> Upload </button>\
+      </div>\
+      <div class="sculptureText'+(sculpt.SculptureID)+'" id="info'+(sculpt.SculptureID)+'" style="float: '+textFloat+'">\
+      <h2>'+sculpt.Title+'</h2>\
+      <h3>'+sculpt.Forename+' '+sculpt.Surname+'</h3>\
+      <p>'+sculpt.Description+'</p>\
+      </div>\
+      </div>';
+      pages[''+sculpt.SculptureID+''] = page-1;
+      count++;
+      if(count%2 == 0){
+        newHtml += '</div>'
+      }
+    }
+    if(count%2 != 0){
+        newHtml += '</div>'
+    }
+    if(count%4 == 0 || count%4 == 3){
+      newHtml += '<div class = "page fade right" id="trail'+trail+'name"><h1>'+trailName+'</h1></div>'
+      page++;
+    }
+    parentElement.innerHTML += newHtml;
+    let headerHtml = '';
+    if(trail == 1){
+      headerHtml = trailName+' '+'<a class="trailnext" onclick="currentPage('+page+')">&#10095;</a>';
+    }else if (trail == noTrails) {
+      headerHtml = '<a class="trailprev" onclick="currentPage('+trailPages[trail-2]+')"> &#10094;</a>'+' '+trailName;
+    }else{
+      headerHtml = '<a class="trailprev" onclick="currentPage('+trailPages[trail-2]+')">&#10094;</a>'+' '+trailName+' '+'<a class="trailnext" onclick="currentPage('+page+')">&#10095;</a>';
+    }
+    let elements = document.getElementsByClassName('trail'+trail+'Header');
+    for(let i = 0;i<elements.length;i++){
+      elements[i].innerHTML += headerHtml;
+    }
+  }
+}
+
+//generating data for administration page
 async function admin(){
   let api = true;
   let noTrailsResponse = await fetch('/getTrailCount');
@@ -38,8 +140,7 @@ async function admin(){
   let noTrails = noTrailsJson.data[0].Count;
   let trailOptions = [noTrails];
 
-  for(let i=1; i<=noTrails; i++){
-
+  for(let i=1; i<=noTrails; i++){  
     let success = await fetch('/getTrail?trailID='+i).catch(() => {
       api = false;
     });
@@ -49,9 +150,7 @@ async function admin(){
         let trailName = body["data"][0]["Name"];
         trailOptions.push(["trail" + i, trailName]);
     }
-  
   }
-
   return trailOptions;
 }
 
@@ -60,18 +159,15 @@ async function getCoords(){
   let noTrailsResponse = await fetch('/getTrailCount');
   let noTrailsJson = await noTrailsResponse.json();
   let noTrails = noTrailsJson.data[0].Count;
-  
-  // for(let i=1; i<=noTrails; i++){
-  
-
-  //   let response = await fetch('/getCoords?trailID='+i);
-  //   let bodyJson = await response.json();
-  //   let body = bodyJson.data;
-  //   let mapHTML = '<iframe width="450" height="500" src="https://www.google.com/maps/d/u/0/embed?mid=1ls4d0fUqWY7Ux-VMLOftnxx-UTSEcRKx&z=12&ll=' + body[0]["StartCoordinate"] + '"></iframe>';
-  //   document.getElementById("iframe-map" + i).innerHTML = mapHTML; 
+  for(let i=1; i<=noTrails; i++){
+    let response = await fetch('/getCoords?trailID='+i);
+    let bodyJson = await response.json();
+    let body = bodyJson.data;
+    let mapHTML = '<iframe width="450" height="500" src="https://www.google.com/maps/d/u/2/embed?mid=1SNrHTWqSeCuKSpkuN2XsP4Ol4rUonUD1&z=11&ll=' + body + '"></iframe>';
+    document.getElementById("iframe-map" + i).innerHTML = mapHTML; 
 
 
-  // }
+  }
 }
 /////////////////////////
 
@@ -79,7 +175,6 @@ async function getCoords(){
 var pageIndex = 1;
 var double = window.matchMedia("(min-width: 1000px)")
 
-showPages(pageIndex, pageIndex);
 double.addListener(showPages)
 
 function nextPages() {
@@ -343,11 +438,9 @@ function swipedetect(el, callback){
         startX = touchobj.pageX
         startY = touchobj.pageY
         startTime = new Date().getTime() // record time when finger first makes contact with surface
-        e.preventDefault()
     }, false)
   
     touchsurface.addEventListener('touchmove', function(e){
-        e.preventDefault() // prevent scrolling when inside DIV
     }, false)
   
     touchsurface.addEventListener('touchend', function(e){
@@ -364,7 +457,6 @@ function swipedetect(el, callback){
             }
         }
         handleswipe(swipedir)
-        e.preventDefault()
     }, false)
 }
 

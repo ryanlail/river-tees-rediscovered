@@ -209,6 +209,7 @@ router.post('/user/addPhoto', upload.single('picture'), async function(req, res)
                         movFile = false;
                     }
                     if(movFile){
+                        fs.unlinkSync(req.file.path);
                         let db = new DBHandler(keys.mysql.host, keys.mysql.user, keys.mysql.password, keys.mysql.database);
                         let resp  = await db.connect();
                         if (resp){
@@ -296,10 +297,20 @@ router.get('/getCoords', async (req, res) => {
     let db = new DBHandler(keys.mysql.host, keys.mysql.user, keys.mysql.password, keys.mysql.database);
     let resp  = await db.connect();
     if (resp){
-        let sql = 'SELECT StartCoordinate FROM Trail WHERE TrailID = ?';
+        let sql = 'SELECT LatitudeLongitude FROM Sculpture WHERE TrailID = ?';
         sql = mysql.format(sql, [trailID]);
         resp = await db.query(sql);
         if(resp){
+            let total_latitude = 0.0;
+            let total_longitude = 0.0;
+            for (let i = 0; i < resp.length; i ++) {
+                let stripped_coords = resp[i].LatitudeLongitude.split(" ");
+                total_latitude += Number(stripped_coords[0]);
+                total_longitude += Number(stripped_coords[1]);
+            }
+            let avg_latitude = total_latitude / resp.length;
+            let avg_longitude = total_longitude / resp.length;
+            resp = avg_latitude.toString() + "," + avg_longitude.toString()
             res.status(200);
             body = resp;
         } else{
@@ -442,6 +453,35 @@ router.post('/addSculpture', async function(req, res) {
     res.status(200);
     res.send({data: body});
 });
+
+
+
+router.get('/trailInfo', async (req, res) =>{
+    let body = '';
+    let trailID = req.query.trailID;
+    let db = new DBHandler(keys.mysql.host, keys.mysql.user, keys.mysql.password, keys.mysql.database);
+    let resp  = await db.connect();
+    if (resp){
+        let sql = 'SELECT SculptureID, Title, Description, Forename, Surname From Sculpture, Artist WHERE Sculpture.TrailID = ? AND Artist.ArtistID = Sculpture.ArtistID;'
+        sql = mysql.format(sql, [trailID]);
+        resp = await db.query(sql);
+        if(resp){
+            res.status(200);
+            body = resp;
+        } else{
+            res.status(500);
+            body = 'Could not complete query';
+        }
+        db.disconnect();
+    }else {
+        res.status(500);
+        body = 'Could not connect to database';
+    }
+    res.send({data: body});
+
+
+});
+
 
 
 module.exports = {router}
