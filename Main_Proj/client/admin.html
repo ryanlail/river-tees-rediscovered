@@ -1,28 +1,24 @@
 <!DOCTYPE html>
 <html lang="en-gb">
 <html>
-
-    <script>
-        window.onload = function(){
-            let getVals = admin();
-            getVals.then(function(result){
-                existingTrails = result;
-                optionHTML = '';
-                for(let i=1; i<=existingTrails[0]; i++){
-                    optionHTML += '<option value="' + existingTrails[i][1] + '">' + existingTrails[i][1] + '</option>';
-                }
-                document.getElementById('pickATrail').innerHTML = optionHTML;
-            })
-        }
-    </script>
-
-
     <head>
-
+        <script>
+            window.onload = function(){
+                let getVals = admin();
+                getVals.then(function(result){
+                    existingTrails = result;
+                    optionHTML = '';
+                    for(let i=1; i<=existingTrails[0]; i++){
+                        optionHTML += '<option value="' + existingTrails[i][1] + '">' + existingTrails[i][1] + '</option>';
+                    }
+                    document.getElementById('pickATrail').innerHTML = optionHTML;
+                })
+            }
+        </script>
         <title>
             Admin Page
         </title>
-
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Amatic+SC|Raleway:100,200,300,400,500,600,700,800,900," rel="stylesheet">
         <style>
@@ -88,8 +84,24 @@
             <h2>Admin Page</h2>
 
             <label for="addSculpture"><h4>Add sculpture:</h4></label>
+
+            <script>
+                function SubForm (){
+                    $.ajax({
+                        url:'/addSculpture',
+                        type:'POST',
+                        data:$('#addSculpture').serialize(),
+                        success:function(){
+                            alert("New Sculpture submitted!");
+                        },
+                        error:function(){
+                            alert("New sculpture not submitted");
+                        }
+                    });
+                }
+            </script>
     
-            <form id="addSculpture" action="/addSculpture" method="POST">
+            <form id="addSculpture" name="addSculpture" target="hiddenFrame">
 
                 <label for="pickATrail">Select a trail:</label><br>
                 <select id="pickATrail" name="trailName"></select><br>
@@ -108,10 +120,9 @@
                 <label for="sculptureDesc">Sculpture description:</label><br>
                 <input type="text" id="sculptureDesc" name="sculptureDesc" placeholder="Description" size=100><br><br>
 
-                <input type="submit" value="Submit"><br>
+                <input type="submit" value="Submit" onclick="SubForm();"><br>
 
             </form>
-
         </div>
 
         <div id="downloadTSV">
@@ -120,6 +131,7 @@
             </a> 
         </div>
 
+        <iframe name="hiddenFrame" width="0" height="0" border="0" style="display: none;"></iframe>
         <script src = "index.js"></script>
     </body>
 </html>
