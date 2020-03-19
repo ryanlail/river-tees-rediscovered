@@ -100,7 +100,7 @@ router.get('/getSculpture', async function(req, res){
         let db = new DBHandler(keys.mysql.host, keys.mysql.user, keys.mysql.password, keys.mysql.database);
         let resp  = await db.connect();
         if (resp){
-            let sql = 'SELECT Title, ArtistID, TrailID FROM Sculpture WHERE SculptureID = ?';
+            let sql = 'SELECT Title, ArtistID, TrailID, Description FROM Sculpture WHERE SculptureID = ?';
             sql = mysql.format(sql, [sculptureID]);
             resp = await db.query(sql);
             if(resp){

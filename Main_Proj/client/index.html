@@ -19,7 +19,10 @@
                 <div id="my-signin2" class="sign-in">
                     <script>
                         function onSuccess(googleUser) {
-                            location.href = "http://localhost:8080/passport.html";
+                            console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+                            const url = new URL(document.location);
+                            const sculptID = url.searchParams.get('sculptureID');
+                            location.href = "passport.html?sculptureID="+sculptID;
                         }
                         function onFailure(error) {
                             console.log(error);
