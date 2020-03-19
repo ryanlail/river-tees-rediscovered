@@ -19,8 +19,7 @@
                 <div id="my-signin2" class="sign-in">
                     <script>
                         function onSuccess(googleUser) {
-                            console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
-                            location.href = "passport.html";
+                            location.href = "http://localhost:8080/passport.html";
                         }
                         function onFailure(error) {
                             console.log(error);
@@ -39,9 +38,6 @@
                     </script>
                     <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
                 </div>
-
-            
-
             </div>
         </div>
     </body>

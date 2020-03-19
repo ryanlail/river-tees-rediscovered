@@ -1,11 +1,18 @@
 'use strict'; 
 
 let currentUser = undefined;
+let pages = {}
+
 
 async function onSignIn (googleUser) {
   currentUser = googleUser;
-  initUi();
+  await initUi();
   showPages(pageIndex, pageIndex);
+  const url = new URL(document.location);
+  const sculptID = url.searchParams.get('sculptureID');
+  if(!isNaN(sculptID) && sculptID !== undefined && sculptID != null){
+    currentPage(pages[sculptID]);
+  }
 }
 
 function postImage() {
@@ -16,6 +23,9 @@ async function initUi(){
   await generatePassport();
   getCoords();
   addUIElements();
+  if(currentUser.getId() == "105995314723247311873"){
+    document.getElementById('admin-button').innerHTML = '<button class="admin" href="#" onclick="adminPage();">Admin</button>';
+  }
 }
 
 
@@ -93,6 +103,7 @@ async function generatePassport(){
       <p>'+sculpt.Description+'</p>\
       </div>\
       </div>';
+      pages[''+sculpt.SculptureID+''] = page-1;
       count++;
       if(count%2 == 0){
         newHtml += '</div>'
@@ -119,6 +130,28 @@ async function generatePassport(){
       elements[i].innerHTML += headerHtml;
     }
   }
+}
+
+//generating data for administration page
+async function admin(){
+  let api = true;
+  let noTrailsResponse = await fetch('/getTrailCount');
+  let noTrailsJson = await noTrailsResponse.json();
+  let noTrails = noTrailsJson.data[0].Count;
+  let trailOptions = [noTrails];
+
+  for(let i=1; i<=noTrails; i++){  
+    let success = await fetch('/getTrail?trailID='+i).catch(() => {
+      api = false;
+    });
+    if(!api)return;
+    if(success.ok) {
+        let body = await success.json();
+        let trailName = body["data"][0]["Name"];
+        trailOptions.push(["trail" + i, trailName]);
+    }
+  }
+  return trailOptions;
 }
 
 async function getCoords(){

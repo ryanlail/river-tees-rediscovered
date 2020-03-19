@@ -36,10 +36,27 @@ body, html {
 }
 
 
-.g-signin2, .sign-out {
+.g-signin2, .sign-out, .admin {
   float: right;
   display: block;
   margin: 15px 10px 0 0;
+}
+
+.admin {
+  padding: 6px 15px;
+  font-family:'Raleway';
+  background-color: #00CBD1;
+  color: white;
+  border: #00CBD1;
+  height: 36px;
+  font-size: 12px;
+  /* display: none;*/
+}
+  
+.admin:hover {
+    background-color: #00CBD1;
+    color: white;
+    box-shadow: 0 8px 12px 0 rgba(0,0,0,0.24), 0 2px 6px 0 #00CBD1;
 }
 
 .sign-out {

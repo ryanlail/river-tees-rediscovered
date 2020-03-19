@@ -20,7 +20,12 @@
                 <img src= "logo.png" style="width:100%">
             </div>
             <div class = heading-inner>
-
+                <script>
+                    function adminPage() {
+                        location.href = "http://localhost:8080/admin.html";
+                    }
+                </script>
+                <div class="admin-button" id="admin-button"></div>
                 <button class="sign-out" href="#" onclick="signOut();">Sign out</button>
                 <script>
                     function signOut() {
