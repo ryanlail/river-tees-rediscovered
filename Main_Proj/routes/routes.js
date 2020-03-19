@@ -78,6 +78,7 @@ router.get('/getSculptures.tsv', async function(req, res){
             catch(err) {
                 res.status(500);
                 body = 'Server error';
+
             }
         } else {
             res.status(500)
