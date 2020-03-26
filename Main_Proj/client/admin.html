@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en-gb">
+<html>
+    <head>
+        <script>
+            window.onload = function(){
+                let getVals = admin();
+                getVals.then(function(result){
+                    existingTrails = result;
+                    optionHTML = '';
+                    for(let i=1; i<=existingTrails[0]; i++){
+                        optionHTML += '<option value="' + existingTrails[i][1] + '">' + existingTrails[i][1] + '</option>';
+                    }
+                    document.getElementById('pickATrail').innerHTML = optionHTML;
+                })
+            }
+        </script>
+        <title>
+            Admin Page
+        </title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Amatic+SC|Raleway:100,200,300,400,500,600,700,800,900," rel="stylesheet">
+        <style>
+            body {
+                font-family: Raleway;
+            }
+
+            input[type=text], select {
+                font-size: 15px;
+                width: 50%;
+                padding: 12px 20px;
+                margin: 8px 0;
+                display: inline-block;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box;
+            }
+
+            input[type=submit] {
+                font-size: 15px;
+                width: 50%;
+                background-color: #4CAF50;
+                color: white;
+                padding: 14px 20px;
+                margin: 8px 0;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+
+            input[type=submit]:hover {
+                background-color: #45a049;
+            }
+
+            button {
+                font-size: 15px;
+                width: 50%;
+                background-color: rgb(201, 54, 54);
+                color: white;
+                padding: 14px 20px;
+                margin: 8px 0;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+
+            button:hover {
+                background-color: #8a1e1e;
+            }
+
+            div {
+                border-radius: 10px;
+                background-color: #f2f2f2;
+                padding: 20px;
+            }
+
+        </style>
+
+    </head>
+
+    <body>
+        <div id="adminForm">
+            <h2>Admin Page</h2>
+
+            <label for="addSculpture"><h4>Add sculpture:</h4></label>
+
+            <script>
+                function SubForm (){
+                    $.ajax({
+                        url:'/addSculpture',
+                        type:'POST',
+                        data:$('#addSculpture').serialize(),
+                        success:function(){
+                            alert("New Sculpture submitted!");
+                        },
+                        error:function(){
+                            alert("New sculpture not submitted");
+                        }
+                    });
+                }
+            </script>
+    
+            <form id="addSculpture" name="addSculpture" target="hiddenFrame">
+
+                <label for="pickATrail">Select a trail:</label><br>
+                <select id="pickATrail" name="trailName"></select><br>
+
+                <label for="sculptureName">Sculpture name:</label><br>
+                <input type="text" id="sculptureName" name="sculptureName" placeholder="Sculpture"><br><br>
+
+                <label for="artistName">Artist's name:</label><br>
+                <input type="text" id="firstNamw" name="artistName" placeholder="Artist's first name">
+                <input type="text" id="lastName" name="artistName" placeholder="Artist's last name"><br><br>
+
+                <label for="sculptureCoords">Coordinates of sculpture:</label><br>
+                <input type="text" id="sculptureLat" name="sculptureCoords" placeholder="Latitude">
+                <input type="text" id="sculptureLong" name="sculptureCoords" placeholder="Longitude"><br><br>
+
+                <label for="sculptureDesc">Sculpture description:</label><br>
+                <input type="text" id="sculptureDesc" name="sculptureDesc" placeholder="Description" size=100><br><br>
+
+                <input type="submit" value="Submit" onclick="SubForm();"><br>
+
+            </form>
+        </div>
+
+        <div id="downloadTSV">
+            <a href="/getSculptures.tsv" download="RTR Sculptures">
+                <button>Download Maps TSV File</button>
+            </a> 
+        </div>
+
+        <iframe name="hiddenFrame" width="0" height="0" border="0" style="display: none;"></iframe>
+        <script src = "index.js"></script>
+    </body>
+</html>

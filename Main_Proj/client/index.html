@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en-gb">
-
 <html>
     <head>
         <meta name="google-signin-client_id" content="1036868376146-6e9lh6ttm3g9ovi3f3mkosdk0fh1mqgo.apps.googleusercontent.com">
@@ -21,7 +20,9 @@
                     <script>
                         function onSuccess(googleUser) {
                             console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
-                            location.href = "http://localhost:8080/passport.html";
+                            const url = new URL(document.location);
+                            const sculptID = url.searchParams.get('sculptureID');
+                            location.href = "passport.html?sculptureID="+sculptID;
                         }
                         function onFailure(error) {
                             console.log(error);
@@ -40,9 +41,6 @@
                     </script>
                     <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
                 </div>
-
-            
-
             </div>
         </div>
     </body>
