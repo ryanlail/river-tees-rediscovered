@@ -31,9 +31,12 @@ def watermark_image(image_location, stamp_location, stamp_mask_location, file_na
 
 
         # write inverted image to file
-        
-        #Undone resizeing for the demo
-        resized = img #cv2.resize(img, (1000,1000), interpolation = cv2.INTER_AREA)
+
+        # Fits portrait images to the box shape; landscape images are left alone
+        if img.shape[0] > img.shape[1]*1.2:
+            resized = cv2.resize(img, (1000, 1200), interpolation = cv2.INTER_AREA)
+        else:
+            resized = img
 
         try:
             os.remove(file_name)
@@ -48,8 +51,8 @@ def watermark_image(image_location, stamp_location, stamp_mask_location, file_na
 
 if __name__ == "__main__":
     original_image_name = sys.argv[1] # just image name
-   # stamp_name = sys.argv[2]
-   # stamp_mask_name = sys.argv[3]
-    file_name = sys.argv[2] # photos/user_id/sculpture_id/1
+    stamp_name = "Sculpture" + sys.argv[2] + ".png"
+    stamp_mask_name = "Sculpture" + sys.argv[2] + "Mask.png"
+    file_name = sys.argv[3] # photos/user_id/sculpture_id/1
 
-    watermark_image(original_image_name, "duLogo.png", "logoMask.png", file_name)
+    watermark_image(original_image_name, stamp_name, stamp_mask_name, file_name)

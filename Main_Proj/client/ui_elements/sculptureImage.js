@@ -23,6 +23,7 @@ class SculptureImage{
             },
             body: 'idToken='+idToken+'&sculptureID='+sculptureID
         }).catch(() =>{
+            console.log(err);
             alert('Could not connect to the server');
             api = false;
         });
