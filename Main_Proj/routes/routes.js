@@ -196,35 +196,6 @@ router.post('/user/addPhoto', upload.single('picture'), async function(req, res)
         verif = false;
     });
     if (verif) {
-<<<<<<< HEAD
-        let file = '';
-        if (req.file) {
-            if (req.file.mimetype == 'image/jpeg' || req.file.mimetype == 'image/png') {
-                file = '/photos/tmp/'+req.file.filename;
-                let movFile = false;
-                try {
-                    fs.mkdirSync('./photos/'+user['sub']+'/'+req.body.sculptureID+'/', {recursive: true});
-                    // call stamping function
-                    spawn('python3', ['./stamp_image.py', req.file.filename, './photos/'+user['sub']+'/'+req.body.sculptureID+'/1']);
-                    movFile = true;
-                } catch (err) {
-                    movFile = false;
-                }
-                if(movFile){
-                    let db = new DBHandler(keys.mysql.host, keys.mysql.user, keys.mysql.password, keys.mysql.database);
-                    let resp  = await db.connect();
-                    if (resp){
-                        let userID = user['sub'];
-                        let sculptureID = req.body.sculptureID;
-                        let photoPath = userID+'/'+sculptureID+'/';
-                        let sql = 'INSERT INTO PassportPage (UserID, SculptureID, PhotoPath) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE PhotoPath = ?';
-                        sql = mysql.format(sql, [userID, sculptureID, photoPath, photoPath]);
-                        resp = await db.query(sql);
-                        if(resp){
-                            res.status(200);
-                            body = 'Success uploaded new photo';
-                        } else{
-=======
         if (!isNaN(Number(req.body.sculptureID))) {
             if (req.file) {
                 if (req.file.mimetype == 'image/jpeg' || req.file.mimetype == 'image/png') {
@@ -257,7 +228,6 @@ router.post('/user/addPhoto', upload.single('picture'), async function(req, res)
                             }
                             db.disconnect();
                         }else {
->>>>>>> 0a3bf939901a5b5616f969983f46cea90608c5dd
                             res.status(500);
                             body = 'Could not connect to database';
                         }
@@ -443,7 +413,7 @@ router.post('/addSculpture', async function(req, res) {
         } else {
             res.status(500);
             body = 'Could not complete query';
-        }
+        } 
         if(resp){
             sql = 'SELECT `TrailID` AS tid, `Name` FROM `Trail` WHERE `Name` = ?';
             sql = mysql.format(sql, [trailName]);
@@ -466,14 +436,14 @@ router.post('/addSculpture', async function(req, res) {
                 res.status(500);
                 body = 'Could not complete query';
             }
-
+        
         } else {
             res.status(500);
             body = 'Could not complete query';
         }
-
+        
         db.disconnect();
-
+            
     } else {
         res.status(500);
         body = 'Could not connect to database';
