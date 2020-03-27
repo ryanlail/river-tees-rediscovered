@@ -2,7 +2,7 @@
 Passport system produced for River Tees Rediscovered by Group 20
 
 # Usage
-This project is not yet publicly hosted as hosting choices have not yet been made by the client, hence it is not yet available on the web. Hence these instructions will guide you on how to lauch the web-server and database server locally.
+This project is not yet publicly hosted as hosting choices have not yet been made by the client, hence it is not yet available on the web. These instructions will guide you on how to lauch the web-server and database server locally.
 
 ## Database Server
 
