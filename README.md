@@ -14,7 +14,7 @@ There is a file in in the `Main_Proj` directory called `Cpvzm85_RTR.sql`. This f
 3. Run the installer as administrator
 4. Once installed run `sudo /opt/lampp/lampp start` from the command line
 5. visit `localhost` on the web browser and select php my admin on the top of the page
-6. Create a new database called `Cpvzm85_RTR` and select it
+6. Create a new database called `Cpvzm85_RTR` with default settings and select it
 7. Click on the import tab with the new database selected
 8. upload`Main_Proj/Cpvzm85_RTR.sql`
 
