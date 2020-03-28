@@ -7,7 +7,7 @@ This project is not yet publicly hosted as hosting choices have not yet been mad
 ## Hosting
 
 ### Database Server
-There is a file in in the `Main_Proj` directory called `Cpvzm85_RTR.sql`. This file can be imported into any database program of your choice.
+There is a file in in the `Main_Proj` directory called `Cpvzm85_RTR.sql`. This file can be imported into any mySQL server database program of your choice. Here are the instructions for XAMPP.
 
 ### Web Server
 Note: This web-server is designed to run on a linux system, so it may not run properlly on a windows machine.
