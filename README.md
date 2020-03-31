@@ -7,7 +7,7 @@ This project is not yet publicly hosted as hosting choices have not yet been mad
 ## Hosting
 
 ### Database Server
-There is a file in in the `Main_Proj` directory called `Cpvzm85_RTR.sql`. This file can be imported into any mySQL server database program of your choice. Here are the instructions for XAMPP running on linux:
+There is a file in the `Main_Proj` directory called `Cpvzm85_RTR.sql`. This file can be imported into any mySQL server database program of your choice. Here are the instructions for XAMPP running on linux:
 
 1. Visit <https://www.apachefriends.org/index.html> and download the installer for linux
 2. Change the permissions of the .run file that is downloaded to allow execution
