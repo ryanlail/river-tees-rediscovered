@@ -24,6 +24,8 @@ The database server can be shutdown with `sudo /opt/lampp/lampp stop`
 ### Web Server
 Note: This web-server is designed to run on a linux system, so it may not run properlly on a windows machine.
 
+Please ensure you have Node.js (with npm) installed <https://nodejs.org/en/download/>
+
 Please ensure you have Python 3.5 or higher installed <https://www.python.org/downloads/>
 
 Install numpy with `pip3 install numpy`
