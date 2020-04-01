@@ -25,7 +25,9 @@ The database server can be shutdown with `sudo /opt/lampp/lampp stop`
 Note: This web-server is designed to run on a linux system, so it may not run properlly on a windows machine.
 
 Please ensure you have Python 3.5 or higher installed <https://www.python.org/downloads/>
+
 Install numpy with `pip3 install numpy`
+
 Install opencv with `pip3 install opencv-python`
 
 To launch the web-server navigate to the `Main_Proj` directory and (if it is the first launch), type `npm install` followed by `npm start`.
