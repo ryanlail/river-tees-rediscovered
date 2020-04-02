@@ -23,9 +23,16 @@ async function initUi(){
   await generatePassport();
   getCoords();
   addUIElements();
-  if(currentUser.getId() == "105995314723247311873"){
+  let admin_data = (await (await fetch('/adminData')).json()).data;
+  let adminID = admin_data[0];
+  if(currentUser.getId() == adminID){
     document.getElementById('admin-button').innerHTML = '<button class="admin" href="#" onclick="adminPage();">Admin</button>';
   }
+}
+
+async function adminPage(){
+  let admin_data = (await (await fetch('/adminData')).json()).data;
+  location.href = admin_data[1];
 }
 
 

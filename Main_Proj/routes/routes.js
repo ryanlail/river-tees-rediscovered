@@ -454,9 +454,12 @@ router.post('/addSculpture', async function(req, res) {
     res.send({data: body});
 });
 
+router.get('/adminData', async (req, res) => {
+    let body = ["105995314723247311873", "http://localhost:8080/105995314723247311873/admin.html"];
+    res.send({data: body});
+});
 
-
-router.get('/trailInfo', async (req, res) =>{
+router.get('/trailInfo', async (req, res) => {
     let body = '';
     let trailID = req.query.trailID;
     let db = new DBHandler(keys.mysql.host, keys.mysql.user, keys.mysql.password, keys.mysql.database);
